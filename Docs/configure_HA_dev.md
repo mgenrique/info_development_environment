@@ -48,7 +48,9 @@ Finalmente se comprueba el resultado:
 Información sobre el uso de git y Github en este documento [github_intro](./Docs/github_intro.md)
 En caso de fallos y cuando se hagan cambios reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
 
-### Solo si no abre Visual Studio al presionar el botón del tutorial de la web oficial en `Firefox`
+
+
+### **Solo** si no abre Visual Studio al presionar el botón del tutorial de la web oficial en `Firefox`
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
 Abre una nueva pestaña en Firefox y escribe about:config en la barra de direcciones, luego presiona Enter.
 Verás una advertencia que dice "Tendré cuidado, lo prometo". Haz clic en el botón para continuar.
