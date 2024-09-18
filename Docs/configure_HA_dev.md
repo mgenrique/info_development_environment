@@ -7,11 +7,11 @@ En el punto en el que nos encontramos deberiamos comenzar directamente haciendo 
 https://github.com/home-assistant/core
 
 Una vez hecho seguir las instrucciones.
+Antes de darle al botón es necesario que Docker Desktop ya este corriendo. Buscar la aplicación en el cajón de aplicaciones de Ubuntu y lanzarla.
 
-Es posible que el navegador no este bien configurado para ejecutar el comando que se ejecuta al presionar el botón.
+Al darle al botón se abrirá Visual Code, clonará localmente nuestro frok de HA e instalará Dev Containers. El proceso completo puede llegar a tardar 1 hora.
 
-Si no funciona a la primera desde Firefox seguir los siguientes pasos
-
+Es posible que el navegador no este bien configurado para ejecutar el comando que se ejecuta al presionar el botón. Si no funciona a la primera desde Firefox seguir los siguientes pasos:
 ## Solo si no abre Visual Studio al presionar el botón
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
 Abre una nueva pestaña en Firefox y escribe about:config en la barra de direcciones, luego presiona Enter.
