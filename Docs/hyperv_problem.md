@@ -1,4 +1,4 @@
-Tras tener todo el sistema funcionando, se produjo un fallo en la virtualización que necesita hacer VMware
+Tras tener todo el sistema funcionando, se produjo un fallo en la virtualización que necesita hacer VMware.
 Posiblemente esto sucedió posteriormente a la instalación de Docker en la maquina Windows que ejecuta VMware Workstation.
 
 Para solucionarlo he seguido los pasos del tutorial del siguiente video
