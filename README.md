@@ -282,7 +282,11 @@ COPY . .
 RUN npm install
 CMD ["npm", "start"]
 ```
-
 3. Ejecuta el contenedor con los comandos de Docker integrados en el editor o desde la terminal.
 
 Con estos pasos, tendrás un entorno de desarrollo completo para trabajar con contenedores Docker desde Ubuntu, usando Docker Desktop y Visual Studio Code.
+
+
+Una vez hecho anterior se puede finalmente proceder a la configuración especifica para Home Assistant
+![configure_HA_dev](./docs/configure_HA_dev.md)
+
