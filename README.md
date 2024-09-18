@@ -86,7 +86,16 @@ sudo apt install apt-transport-https ca-certificates curl software-properties-co
 ```
 
 ## 4. Instalar Docker Desktop
-
+Lo primero será instalar docker-ce-cli, la versión de linea de comandos de Docker. Para ello:
+````bash
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt update
+sudo apt install docker-ce-cli
+docker --version
+````
 Sigue los siguientes pasos para instalar Docker Desktop en Ubuntu:
 
 ### 4.1 Descargar Docker Desktop para Linux:
