@@ -10,7 +10,9 @@ Los ajustes utilizados en VMWare se muestran a continuación:
 ![Ajustes 2](./images/VMware%20settings%2002.jpg)
 ![Ajustes 3](./images/VMware%20settings%2003.jpg)
 
+No se recomienda instalar las VMWare tools que proporciona VMware Workstation. Ubuntu utiliza las open-vm-tools y dan menos problemas
 
+![VMware_tools](./images/VMware_tools.jpg)
 
 ## 1. Actualizar el sistema
 
