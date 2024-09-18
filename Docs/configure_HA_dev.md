@@ -19,6 +19,11 @@ Cuando el proceso termine deberiamos tener algo similar esto en Docker Desktop:
 ![DockerDesktopHA](../images/DockerDesktopHA_V.png)
 ![DockerDesktopHA](../images/DockerDesktopHA_B.png)
 
+Los contenedores ya están preparados pero falta un ultimo paso antes de poder ver nuestra instancia de Home Assistant.
+En Visual Studio Code presionar Ctrl+Mayus+P para poder abrir la paleta de comandos. Mas info sobre esto en vsc_comand_pallete.md
+
+http://localhost:8123
+
 ## Solo si no abre Visual Studio al presionar el botón
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
 Abre una nueva pestaña en Firefox y escribe about:config en la barra de direcciones, luego presiona Enter.
