@@ -13,7 +13,10 @@ Al darle al botón se abrirá Visual Code, clonará localmente nuestro frok de H
 
 Es posible que el navegador no este bien configurado para ejecutar el comando que se ejecuta al presionar el botón. Si no funciona a la primera desde Firefox seguir los pasos indicados más abajo.
 Cuando el proceso termine deberiamos tener algo similar esto en Docker Desktop:
-![DockerDesktopHA](../images/DockerDesktopHA.png)
+![DockerDesktopHA](../images/DockerDesktopHA_C.png)
+![DockerDesktopHA](../images/DockerDesktopHA_I.png)
+![DockerDesktopHA](../images/DockerDesktopHA_V.png)
+![DockerDesktopHA](../images/DockerDesktopHA_B.png)
 
 ## Solo si no abre Visual Studio al presionar el botón
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
