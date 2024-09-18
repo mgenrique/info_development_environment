@@ -9,6 +9,7 @@ Los ajustes utilizados en VMWare se muestran a continuación:
 ![Ajustes 1](./images/VMware%20settings%2001.jpg)
 
 Es importante para trabajar con Docker marcar la opción Virtualize Intel VT-x/EPT or AMD-V/RVI. Esto nos permitirá usar KVM virtualization support en Ubuntu
+
 ![Ajustes 2](./images/VMware%20settings%2002.jpg)
 ![Ajustes 3](./images/VMware%20settings%2003.jpg)
 
