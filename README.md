@@ -175,6 +175,18 @@ Para ver la configuración en un repositorio específico, usa:
 git config --list
 ````
 
+Otras configuraciones útiles
+````bash
+git config --global core.editor "nano"
+git config --global color.ui auto
+````
+Si estás usando servicios como GitHub o GitLab, asegúrate de configurar las claves SSH para autenticarte con esos servicios. Esto es especialmente útil para evitar tener que ingresar tu nombre de usuario y contraseña repetidamente.
+Para generar una clave SSH y agregarla a tu cuenta en GitHub o GitLab, sigue estos pasos:
+````bash
+ssh-keygen -t ed25519 -C "tu-email@example.com"
+````
+Luego, agrega la clave pública (~/.ssh/id_ed25519.pub) a tu cuenta en GitHub o GitLab.
+
 ## 6. Instalar Visual Studio Code
 
 ### 6.1 Instalar el repositorio de Microsoft para VS Code:
