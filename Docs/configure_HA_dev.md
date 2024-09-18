@@ -26,6 +26,7 @@ En la paleta de comandos escribir Tasks: Run Task -> Run Home Assistant Core
 Si todo ha ido bien y no se generan errores ya podremo acceder a HA desde:
 http://localhost:8123
 
+En caso de fallo podemos reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
 ## Solo si no abre Visual Studio al presionar el botón
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
 Abre una nueva pestaña en Firefox y escribe about:config en la barra de direcciones, luego presiona Enter.
