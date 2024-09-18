@@ -1,0 +1,9 @@
+{
+    "domain": "my_controller",
+    "name": "Custom Controller EMG",
+    "version": "1.0",
+    "dependencies": ["sensor", "mqtt", "network"],
+    "codeowners": ["Enrique Martinez"],
+	"config_flow": false,
+    "requirements": ["numpy>=1.19.0", "scipy>=1.5.0"]
+}
