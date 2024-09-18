@@ -23,6 +23,9 @@ Asegúrate de tener open-vm-tools instalado en tu máquina virtual Ubuntu. Puede
 sudo apt update
 sudo apt install open-vm-tools open-vm-tools-desktop
 ```
+En algún momento puede aparecer un problema con la virtualización en VMWare: Virtualized Intel VT-X/EPT is not supported on this platform
+La solución en esta guia: hyperv_problem.md
+[hyperv_problem](./Docs/hyperv_problem.md)
 
 ## 1. Actualizar el sistema
 
