@@ -36,7 +36,7 @@ Si tienes conflictos durante el merge, VSC te ayudará a visualizarlos y resolve
 ## 6. Subir los cambios a tu fork
 Una vez que hayas hecho el merge y resuelto los conflictos (si existen), sube los cambios a tu fork en GitHub:
 ```bash
-git push origin main
+git push origin dev
 ```
 
 ## Resumen del flujo en VSC (Dev Containers):
