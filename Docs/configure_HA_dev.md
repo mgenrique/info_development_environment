@@ -31,11 +31,13 @@ En la paleta de comandos escribir Tasks: Run Task -> Run Home Assistant Core
 Si todo ha ido bien y no se generan errores ya podremo acceder a HA desde:
 http://localhost:8123
 
-En mi caso Dev Containers no instaló automaticamente todas las dependencias y tuve que hacer:
+En mi caso Dev Containers no instaló automaticamente todas las dependencias y en un terminal dentro del workspace tuve que hacer:
 ````bash
 pip install aiohasupervisor
 hass -c ./config
 ````
+Nota: las dependencias suelen estar definidas en ficheros `requeriments.txt` dentro de los distintos proyectos de Python.
+A estos requerimientos se hace referencia dentro del fichero Dockerfile que los utiliza para configurar el entorno.
 En caso de fallo podemos reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
 
 O analizar los pasos indicados aqui
