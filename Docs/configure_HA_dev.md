@@ -21,8 +21,9 @@ Cuando el proceso termine deberiamos tener algo similar esto en Docker Desktop:
 
 Los contenedores ya están preparados pero falta un ultimo paso antes de poder ver nuestra instancia de Home Assistant.
 En Visual Studio Code presionar Ctrl+Mayus+P para poder abrir la paleta de comandos. Mas info sobre esto en [vsc_command_pallete](./vsc_command_pallete.md)
+En la paleta de comandos escribir Tasks: Run Task -> Run Home Assistant Core
 
-
+Si todo ha ido bien y no se generan errores ya podremo acceder a HA desde:
 http://localhost:8123
 
 ## Solo si no abre Visual Studio al presionar el botón
