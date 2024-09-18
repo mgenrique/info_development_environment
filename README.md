@@ -64,6 +64,18 @@ Hay un problema de compatibilidad entre Docker Desktop y Ubuntu 24.04 LTS que ob
 ````bash
 sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
 ````
+Esta instrucción solo tiene efecto durante la sesion en que se ejecuta por lo que se requiere introducirla en la configuración de arranque:
+````bash
+sudo nano /etc/sysctl.conf
+````
+Donde se debe intrucir la siguiente línea al final del archivo
+````bash
+kernel.apparmor_restrict_unprivileged_userns=0
+````
+Para aplicar los cambios sin reiniciar, ejecuta el siguiente comando
+````bash
+sudo sysctl -p
+````
 
 ## 2. Instalar dependencias necesarias
 
