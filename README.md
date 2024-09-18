@@ -52,6 +52,14 @@ Asegúrate de que los servicios de libvirt estén en ejecución y habilitados al
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 ````
+Para verificar quien es el propietario del servicio KVM 
+````bash
+ls -al /dev/kvm
+````
+Para añadir el usuario actual al grupo de usaurios con permiso para usar el servicio KVM 
+````bash
+sudo usermod -aG kvm $USER
+````
 
 ## 2. Instalar dependencias necesarias
 
