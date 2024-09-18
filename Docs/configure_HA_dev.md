@@ -45,7 +45,7 @@ Finalmente se comprueba el resultado:
 
 ## A partir de aqui ya es entrar en materia...
 ... para lo que pueden ser utiles los siguiente documentos:
-Información sobre el uso de git y Github en este documento [github_intro](./Docs/github_intro.md)
+Información sobre el uso de git y Github en este documento [github_intro](./github_intro.md)
 En caso de fallos y cuando se hagan cambios reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
 
 
