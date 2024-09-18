@@ -43,9 +43,12 @@ Resulta interesante que la solución al problema fue aportada por Copilot (boton
 Finalmente se comprueba el resultado:
 ![ha_running](../images/ha_running.png)
 
-En caso de fallo podemos reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
+## A partir de aqui ya es entrar en materia...
+... para lo que pueden ser utiles los siguiente documentos:
+Información sobre el uso de git y Github en este documento [github_intro](./Docs/github_intro.md)
+En caso de fallos y cuando se hagan cambios reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
 
-## Solo si no abre Visual Studio al presionar el botón
+### Solo si no abre Visual Studio al presionar el botón del tutorial de la web oficial
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
 Abre una nueva pestaña en Firefox y escribe about:config en la barra de direcciones, luego presiona Enter.
 Verás una advertencia que dice "Tendré cuidado, lo prometo". Haz clic en el botón para continuar.
