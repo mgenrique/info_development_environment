@@ -2,6 +2,9 @@
 # Configuración de Docker Desktop y Visual Studio Code en Ubuntu
 
 Este documento describe los pasos necesarios para configurar un entorno de desarrollo en Ubuntu, basado en Docker Desktop y Visual Studio Code, para desarrollar contenedores Docker.
+La instalación se realiza sobre una maquina virtual que trabaja en VMWare Workstation 16 Pro, en la que se ha instalado el sistema operativo a partir de la imagen
+ubuntu-24.04.1-desktop-amd64.iso
+
 
 ## 1. Actualizar el sistema
 
