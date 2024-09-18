@@ -215,7 +215,9 @@ Para comprobar que todo funciona
 ````bash
 ssh -T git@github.com
 ````
-Deberías recibir un mensaje de bienvenida de GitHub si todo está configurado correctamente
+Deberías recibir un mensaje de bienvenida de GitHub si todo está configurado correctamente.
+
+Más información sobre el uso de git y Github en este documento [github_intro](./Docs/github_intro.md)
 
 
 ## 6. Instalar Visual Studio Code
