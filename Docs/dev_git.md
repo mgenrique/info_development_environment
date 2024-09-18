@@ -10,9 +10,8 @@ Puedes sincronizar un fork en Visual Studio Code (VSC) para un proyecto que est�
 ## 2. Añadir el repositorio original como `upstream`
 En la terminal de VSC, dentro del Dev Container, puedes seguir los mismos pasos que usarías en un entorno local:
 ```bash
-git remote add upstream https://github.com/OWNER/REPO.git
+git remote add upstream https://github.com/home-assistant/core.git
 ```
-Reemplaza `OWNER` y `REPO` con el nombre del propietario y el repositorio original.
 
 ## 3. Hacer `fetch` de los cambios del repositorio original
 Obtén los últimos cambios del repositorio original con:
