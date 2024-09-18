@@ -95,13 +95,14 @@ Ve al sitio oficial de Docker y descarga la versión más reciente de Docker Des
 
 [Docker Desktop para Linux](https://www.docker.com/products/docker-desktop)
 
-Alternativamente, puedes descargarlo usando `curl` en la terminal (ajusta el enlace según la versión más reciente):
+Localiza un directorio temporal y en un terminal descargalo con la siguiente instrucción:
 
 ```bash
-curl -LO https://desktop.docker.com/linux/main/amd64/docker-desktop-<VERSION>-amd64.deb
+curl -LO https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
+
 ```
 
-En mi caso lo he hecho con apt:
+Finalmente instalarlo con apt:
 ```bash
 sudo apt-get update
 sudo apt-get install ./docker-desktop-amd64.deb
