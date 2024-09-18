@@ -32,6 +32,27 @@ Primero, asegúrate de que tu sistema esté actualizado:
 sudo apt update && sudo apt upgrade -y
 ```
 
+## 2. Instalar soporte para virtualización KVM
+
+```bash
+sudo apt update
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virt-manager
+```
+Para permitir que tu usuario normal gestione las máquinas virtuales, añade tu usuario al grupo libvirt:
+
+````bash
+sudo adduser $(whoami) libvirt
+````
+Comprueba que KVM está funcionando correctamente
+````bash
+sudo kvm-ok
+````
+Asegúrate de que los servicios de libvirt estén en ejecución y habilitados al inicio:
+````bash
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+````
+
 ## 2. Instalar dependencias necesarias
 
 Docker Desktop requiere algunas dependencias adicionales que debes instalar:
