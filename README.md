@@ -95,7 +95,7 @@ Ve al sitio oficial de Docker y descarga la versión más reciente de Docker Des
 
 [Docker Desktop para Linux](https://www.docker.com/products/docker-desktop)
 
-Localiza un directorio temporal y en un terminal descargalo con la siguiente instrucción:
+O laternativamente, localiza un directorio temporal y en un terminal descargalo con la siguiente instrucción:
 
 ```bash
 curl -LO https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
