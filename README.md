@@ -288,5 +288,6 @@ Con estos pasos, tendrás un entorno de desarrollo completo para trabajar con co
 
 
 Una vez hecho anterior se puede finalmente proceder a la configuración especifica para Home Assistant
-![configure_HA_dev](./docs/configure_HA_dev.md)
+[Configurar HA Dev](./Docs/configure_HA_dev.md)
+
 
