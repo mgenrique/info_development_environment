@@ -185,8 +185,35 @@ Para generar una clave SSH y agregarla a tu cuenta en GitHub o GitLab, sigue est
 ````bash
 ssh-keygen -t ed25519 -C "tu-email@example.com"
 ````
+Esta operacion se puede hacer en una carpeta temporal y finalmente llevarla al almacen de claves con los comandos:
+````bash
+mv ./miclave_ssh ~/.ssh/
+mv ./miclave_ssh.pub ~/.ssh/
+````
+Luego ajustar los permisos de los archivos
+````bash
+chmod 600 ~/.ssh/miclave_ssh
+chmod 644 ~/.ssh/miclave_ssh.pub
+````
+Comprobar si el agente SSH está funcionando
+````bash
+eval "$(ssh-agent -s)"
+````
+
+Agregar la clave al agente SSH
+````bash
+ssh-add ~/.ssh/miclave_ssh
+````
+
 Luego, agrega la clave pública (~/.ssh/id_ed25519.pub) a tu cuenta en GitHub o GitLab. Se puede abrir el contenido con un editor de texto, copiar todo y pegarlo en Github
 ![Ajustes 1](./images/Github%20SSH%20key.png)
+
+Para comprobar que todo funciona
+````bash
+ssh -T git@github.com
+````
+Deberías recibir un mensaje de bienvenida de GitHub si todo está configurado correctamente
+
 
 ## 6. Instalar Visual Studio Code
 
