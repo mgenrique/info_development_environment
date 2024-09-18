@@ -14,6 +14,13 @@ No se recomienda instalar las VMWare tools que proporciona VMware Workstation. U
 
 ![VMware_tools](./images/VMware_tools.jpg)
 
+Instalar open-vm-tools en Ubuntu
+Asegúrate de tener open-vm-tools instalado en tu máquina virtual Ubuntu. Puedes hacerlo ejecutando los siguientes comandos en la terminal de Ubuntu:
+```bash
+sudo apt update
+sudo apt install open-vm-tools open-vm-tools-desktop
+```
+
 ## 1. Actualizar el sistema
 
 Primero, asegúrate de que tu sistema esté actualizado:
