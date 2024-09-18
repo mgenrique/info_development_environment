@@ -1,4 +1,4 @@
-##MANUALES SOBRE GIT Y GITHUB
+#MANUALES SOBRE GIT Y GITHUB
 
 En los siguientes documentos se explica como llevar a cabo algunos de los procesos más habituales relacionados con Git y GitHub
 
