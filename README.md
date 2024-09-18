@@ -101,6 +101,12 @@ Alternativamente, puedes descargarlo usando `curl` en la terminal (ajusta el enl
 curl -LO https://desktop.docker.com/linux/main/amd64/docker-desktop-<VERSION>-amd64.deb
 ```
 
+En mi caso lo he hecho con apt:
+```bash
+sudo apt-get update
+sudo apt-get install ./docker-desktop-amd64.deb
+```
+
 ### 3.2 Instalar Docker Desktop:
 
 Una vez descargado el archivo `.deb`, instálalo con:
