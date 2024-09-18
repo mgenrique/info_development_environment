@@ -60,6 +60,10 @@ Para añadir el usuario actual al grupo de usaurios con permiso para usar el ser
 ````bash
 sudo usermod -aG kvm $USER
 ````
+Hay un problema de compatibilidad entre Docker Desktop y Ubuntu 24.04 LTS que obliga a ejecutar lo siguiente:
+````bash
+sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+````
 
 ## 2. Instalar dependencias necesarias
 
