@@ -20,10 +20,10 @@ git fetch upstream
 ```
 
 ## 4. Realizar el `merge` de los cambios en tu rama local
-Ahora puedes mezclar los cambios del repositorio original en tu rama local. Si estás trabajando en la rama `main`:
+Ahora puedes mezclar los cambios del repositorio original en tu rama local. Si estás trabajando en la rama `dev`:
 ```bash
-git checkout main
-git merge upstream/main
+git checkout dev
+git merge upstream/dev
 ```
 Si la rama principal se llama `master`, ajusta el comando a:
 ```bash
