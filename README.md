@@ -135,7 +135,7 @@ sudo systemctl start docker
 sudo docker run hello-world
 ```
 
-### 3.4 Añadir tu usuario al grupo `docker` (opcional):
+### 4.4 Añadir tu usuario al grupo `docker` (opcional):
 
 Para evitar usar `sudo` en cada comando de Docker, puedes añadir tu usuario al grupo `docker`:
 
@@ -145,9 +145,39 @@ sudo usermod -aG docker $USER
 
 Luego cierra sesión y vuelve a entrar para aplicar los cambios.
 
-## 5. Instalar Visual Studio Code
+## 5. Establecer usario para GIT
+Para que Git registre correctamente tus contribuciones, debes configurar tu nombre y correo electrónico. Esto se hace globalmente (para todos los repositorios en tu sistema) o a nivel de repositorio individual.
 
-### 5.1 Instalar el repositorio de Microsoft para VS Code:
+Configuración global (para todos los repositorios)
+Para configurar tu nombre y correo electrónico globalmente, usa los siguientes comandos:
+```bash
+git config --global user.name "mgenrique"
+git config --global user.email "tu-email@example.com"
+```
+Esta configuración se almacena en el archivo de configuración global de Git (~/.gitconfig), lo que garantiza que esta información esté disponible para todos los repositorios en tu sistema.
+
+Configuración a nivel de repositorio (opcional)
+Si necesitas usar una configuración diferente para un repositorio específico, navega al directorio del repositorio y usa los comandos sin la opción --global:
+
+```bash
+cd /ruta/al/repositorio
+git config user.name "otro_usuario"
+git config user.email "otro-email@example.com"
+```
+Para confirmar que tu configuración se ha guardado correctamente, puedes verificarla con los siguientes comandos:
+
+````bash
+git config --global --list
+````
+
+Para ver la configuración en un repositorio específico, usa:
+````bash
+git config --list
+````
+
+## 6. Instalar Visual Studio Code
+
+### 6.1 Instalar el repositorio de Microsoft para VS Code:
 
 ```bash
 sudo apt install wget gpg
@@ -156,16 +186,16 @@ sudo install -o root -g root -m 644 packages.microsoft.gpg /usr/share/keyrings/
 sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
 ```
 
-### 5.2 Instalar Visual Studio Code:
+### 6.2 Instalar Visual Studio Code:
 
 ```bash
 sudo apt update
 sudo apt install code
 ```
 
-## 6. Configurar Visual Studio Code para Docker
+## 7. Configurar Visual Studio Code para Docker
 
-### 6.1 Instalar la extensión de Docker:
+### 7.1 Instalar la extensión de Docker:
 
 Abre Visual Studio Code y busca la extensión **Docker** en el marketplace. También puedes instalarla desde la terminal con:
 
@@ -173,7 +203,7 @@ Abre Visual Studio Code y busca la extensión **Docker** en el marketplace. Tamb
 code --install-extension ms-azuretools.vscode-docker
 ```
 
-### 6.2 Instalar la extensión de WSL (opcional):
+### 7.2 Instalar la extensión de WSL (opcional):
 
 Si planeas usar Docker con **WSL2** (Windows Subsystem for Linux), también deberías instalar la extensión **Remote - WSL**:
 
@@ -181,14 +211,14 @@ Si planeas usar Docker con **WSL2** (Windows Subsystem for Linux), también debe
 code --install-extension ms-vscode-remote.remote-wsl
 ```
 
-## 7. Verificar la integración de Docker con Visual Studio Code
+## 8. Verificar la integración de Docker con Visual Studio Code
 
 1. Abre Visual Studio Code.
 2. En el panel lateral izquierdo, haz clic en el ícono de Docker (una ballena).
 3. Deberías poder ver los contenedores, imágenes y redes de Docker en ejecución.
 4. Crea un archivo `Dockerfile` en un proyecto y empieza a desarrollar tu contenedor.
 
-## 8. Usar Docker Compose (opcional)
+## 9. Usar Docker Compose (opcional)
 
 Si trabajas con múltiples contenedores, puedes usar Docker Compose. Instálalo con:
 
@@ -198,7 +228,7 @@ sudo apt install docker-compose
 
 En **VS Code**, asegúrate de que la extensión de Docker también soporte la configuración de `docker-compose.yml`.
 
-## 9. Probar la instalación
+## 10. Probar la instalación
 
 Crea un contenedor de prueba desde **VS Code**:
 
