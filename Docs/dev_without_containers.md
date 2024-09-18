@@ -1,5 +1,5 @@
 
-Se puede hacer igualmente desarrollo sin usar Dev Containers
+Se puede hacer igualmente desarrollo sin usar Dev Containers trabajando directamente con Python
 En este caso para configurar el entorno haremos:
 
 ````bash
