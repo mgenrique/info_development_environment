@@ -40,11 +40,10 @@ Nota: las dependencias suelen estar definidas en ficheros como `homeassistant/re
 A estos requerimientos se hace referencia dentro del fichero Dockerfile que los utiliza para configurar el entorno.
 Resulta interesante que la solución al problema fue aportada por Copilot (boton derecho del ratón sobre el terminal que arrojaba los errores).
 
+Finalmente se comprueba el resultado:
+![ha_running](../images/ha_running.png)
+
 En caso de fallo podemos reconstruir el contenedor tal como se indica en [rebuild_dev_containers](./rebuild_dev_containers.md)
-
-O analizar los pasos indicados aqui
-https://github.com/home-assistant/core/issues/114849
-
 
 ## Solo si no abre Visual Studio al presionar el botón
 Para permitir enlaces personalizados en Firefox como vscode://, sigue estos pasos:
