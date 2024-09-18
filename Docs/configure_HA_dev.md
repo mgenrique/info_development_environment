@@ -1,3 +1,4 @@
+## PREPARAR VISUAL STUDIO CODE PARA DESARROLLAR PARA HOME ASSISTANT
 Una vez tenemos el entorno preparado con Docker y Visual Studio Code, comenzamos a utilizarlo para disponer de una versión del core de Home Assistant sobre el que poder desarrollar nuevas funcionalidades y hacer pruebas
 
 Para ello seguiremos los pasos que se indican en:
