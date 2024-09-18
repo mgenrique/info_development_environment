@@ -5,6 +5,12 @@ Este documento describe los pasos necesarios para configurar un entorno de desar
 La instalación se realiza sobre una maquina virtual que trabaja en VMWare Workstation 16 Pro, en la que se ha instalado el sistema operativo a partir de la imagen
 ubuntu-24.04.1-desktop-amd64.iso
 
+Los ajustes utilizados en VMWare se muestran a continuación:
+![Ajustes 1](./images/VMware%20settings%2001.jpg)
+![Ajustes 2](./images/VMware%20settings%2002.jpg)
+![Ajustes 3](./images/VMware%20settings%2003.jpg)
+
+
 
 ## 1. Actualizar el sistema
 
