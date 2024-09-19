@@ -1,4 +1,5 @@
-LINTERS
+#LINTERS
+
 Un **linter** es una herramienta que analiza el código fuente para detectar errores, problemas de estilo y posibles bugs antes de ejecutar el código. Proporciona sugerencias para mejorar la calidad del código y garantizar que cumpla con las normas de codificación establecidas.
 
 - **Errores**: Detecta errores sintácticos y semánticos.
