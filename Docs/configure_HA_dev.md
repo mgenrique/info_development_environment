@@ -58,7 +58,7 @@ Información sobre Dev Containers en este documento [dev_containers](./dev_conta
 
 Información sobre el uso de git y Github en este documento [github_intro](./github_intro.md)
 
-
+Información sobre como crear componentes personalizados (Custom Components) para Home Assistant este documento [Crear CC en HA](./ha_custom_components_dev_flow.md)
 
 
 
