@@ -69,6 +69,68 @@ docker build -t flask-app .
 docker run -p 5000:5000 flask-app
 ```
 
+### Relación entre Docker y Docker Desktop
+
+**Docker** es la plataforma base que proporciona las herramientas y tecnologías para crear, ejecutar, y gestionar contenedores. Incluye los componentes centrales, como el motor de Docker (Docker Engine), que permite construir y ejecutar contenedores.
+
+**Docker Desktop**, por otro lado, es una aplicación que facilita el uso de Docker en sistemas operativos como macOS y Windows. Docker Desktop incluye:
+- **Docker Engine**: El núcleo de Docker para ejecutar contenedores.
+- **Docker CLI**: La interfaz de línea de comandos para interactuar con Docker.
+- **Docker Compose**: Herramienta para definir y ejecutar aplicaciones multi-contenedor.
+- **Kubernetes**: Un entorno opcional de orquestación de contenedores.
+
+Docker Desktop simplifica el proceso de instalar y gestionar Docker en sistemas que no tienen soporte nativo de contenedores (como macOS y Windows), y proporciona una interfaz gráfica para manejar contenedores, imágenes, volúmenes, redes, etc.
+
+### Integración de Docker con Visual Studio Code (VSC)
+
+Visual Studio Code se puede integrar perfectamente con Docker mediante la extensión **Docker**. Esta extensión te permite interactuar con Docker directamente desde el editor, lo que facilita la administración de imágenes, contenedores, y otros recursos sin salir de VSC.
+
+#### Pasos para integrar Docker en Visual Studio Code:
+
+1. **Instalar Docker en tu máquina**:
+   - En Windows o macOS, necesitarás instalar **Docker Desktop**. En Linux, puedes instalar Docker directamente usando los paquetes de tu distribución.
+   - Una vez instalado, asegúrate de que Docker esté corriendo correctamente ejecutando en la terminal:
+     ```bash
+     docker --version
+     ```
+
+2. **Instalar la extensión de Docker en VS Code**:
+   - Abre Visual Studio Code y ve a la pestaña de extensiones (icono de los cuatro cuadrados).
+   - Busca "Docker" y selecciona la extensión oficial de Docker desarrollada por Microsoft.
+   - Instala la extensión.
+
+3. **Interacción con Docker en VS Code**:
+   Una vez instalada la extensión de Docker, verás un nuevo icono de Docker en la barra lateral de VS Code. Desde ahí puedes:
+   - **Gestionar contenedores**: Ver, iniciar, detener, o eliminar contenedores.
+   - **Gestionar imágenes**: Listar, construir, ejecutar o eliminar imágenes.
+   - **Gestionar volúmenes**: Crear o eliminar volúmenes para almacenamiento persistente.
+   - **Docker Compose**: Definir y ejecutar aplicaciones multi-contenedor desde archivos `docker-compose.yml`.
+
+4. **Crear y ejecutar contenedores desde VS Code**:
+   Puedes ejecutar y administrar contenedores directamente desde el editor. También puedes interactuar con contenedores desde la terminal integrada, ver registros de contenedores, o acceder a un contenedor en ejecución para ejecutar comandos dentro de él.
+
+5. **Soporte para Dev Containers**:
+   Si trabajas con **Dev Containers** (contenedores de desarrollo), puedes abrir un proyecto completo dentro de un contenedor de Docker desde VS Code. Esto te permite trabajar en un entorno de desarrollo completamente aislado, sin necesidad de configurar dependencias en tu máquina local.
+
+   Pasos para usar Dev Containers:
+   - Crea un archivo `devcontainer.json` en tu proyecto (como en ejemplos anteriores).
+   - VS Code detectará el archivo y te preguntará si deseas "Reabrir en contenedor". Al hacer esto, tu proyecto se ejecutará en un contenedor Docker con todas las dependencias necesarias.
+
+#### Beneficios de usar Docker con VS Code
+
+- **Simplificación del flujo de trabajo**: Puedes manejar contenedores, imágenes y recursos Docker sin salir del editor, todo integrado en un solo entorno.
+- **Entornos consistentes**: Usando Dev Containers, puedes garantizar que todos los desarrolladores en un proyecto tengan el mismo entorno de desarrollo.
+- **Facilidad de gestión de contenedores**: La interfaz gráfica de la extensión Docker en VS Code hace que sea sencillo ver qué contenedores están en ejecución, acceder a los registros, y administrar otros aspectos del ecosistema Docker.
+
+### Resumen
+
+- **Docker** es la plataforma base para la creación y gestión de contenedores.
+- **Docker Desktop** es una aplicación que facilita la instalación y el uso de Docker en macOS y Windows, proporcionando una interfaz gráfica y un conjunto completo de herramientas (Docker Engine, CLI, Compose, y Kubernetes).
+- **Visual Studio Code** se integra con Docker a través de la extensión Docker, lo que permite gestionar contenedores, imágenes y otros recursos directamente desde el editor.
+- Usar Docker con **Dev Containers** en VS Code facilita el trabajo en entornos de desarrollo consistentes y portátiles.
+
+Esta integración es ideal para desarrolladores que desean aprovechar la potencia de Docker mientras utilizan Visual Studio Code como su entorno de desarrollo principal.
+
 Aquí, el contenedor ejecuta la aplicación web y expone el puerto 5000, lo que te permite acceder a la aplicación desde tu navegador en `http://localhost:5000`.
 
 En resumen, Docker es una herramienta poderosa que facilita la creación, despliegue y gestión de aplicaciones en entornos aislados y portátiles llamados contenedores. Los conceptos clave como imágenes, contenedores, volúmenes y puertos son fundamentales para entender cómo Docker facilita el desarrollo y despliegue de aplicaciones.
