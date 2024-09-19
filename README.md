@@ -27,6 +27,8 @@ En algún momento puede aparecer un problema con la virtualización en VMWare: V
 La solución en esta guia: hyperv_problem.md
 [hyperv_problem](./Docs/hyperv_problem.md)
 
+Otras consideraciones útiles para el manejo de maquinas virtuales con VMware se pueden consultar en [Info VMware](./Docs/vmware_move_vm.md)
+
 ## 1. Actualizar el sistema
 
 Primero, asegúrate de que tu sistema esté actualizado:
