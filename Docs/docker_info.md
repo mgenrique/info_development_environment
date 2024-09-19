@@ -41,6 +41,7 @@
    CMD ["node", "app.js"]
    ```
 Un ejemplo de un Dockerfile para una aplicación Python puede verse en [Dockerfile Python](./dokerfile_python.md)
+
 6. **Redes**:
    - Docker crea automáticamente una red para que los contenedores se comuniquen entre sí. También puedes crear redes personalizadas para aislar o conectar contenedores de manera controlada.
    - Existen diferentes modos de red, como `bridge`, `host`, y `none`, dependiendo del nivel de aislamiento o visibilidad que necesites entre los contenedores y el sistema anfitrión.
