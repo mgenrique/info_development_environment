@@ -65,9 +65,8 @@ Crea un proyecto de extensión utilizando la línea de comandos:
 
 ````bash
 yo code
-````bash
+````
 Define los comandos en el archivo `package.json` de la extensión. Aquí un ejemplo:
-
 
 ````json
 {
@@ -81,6 +80,7 @@ Define los comandos en el archivo `package.json` de la extensión. Aquí un ejem
   }
 }
 ````
+
 3. En el archivo `src/extension.ts` (o e`xtension.js`), define la lógica de tu comando:
 ````typescript
 import * as vscode from 'vscode';
