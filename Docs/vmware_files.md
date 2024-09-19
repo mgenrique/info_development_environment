@@ -1,4 +1,21 @@
-En VMware, las máquinas virtuales (VM) están definidas por varios archivos y directorios que contienen configuraciones, datos del disco, y otros aspectos necesarios para su funcionamiento. Los principales archivos y directorios que componen una VM en VMware son:
+En VMware, las máquinas virtuales (VM) están definidas por varios archivos y directorios que contienen configuraciones, datos del disco, y otros aspectos necesarios para su funcionamiento. 
+
+Las máquinas virtuales de VMware pueden componerse de dos directorios principaleso bien reunir en uno solo toda la información
+
+1. Directorio de configuración de la máquina: Basicamente contiene los settings e información sobre las instantaneas
+2. Directo de almacenamiento de la imagen de disco duro virtual.
+
+Todos los datos se pueden llegar a reunir en un solo directorio ya que VMware tiene una forma particular de nombrar los ficheros .vmdk que representan la unidad de disco virtual que equivale a un HDD/SSD en una máquina real.
+
+En una maquina virtual determinada habrá bastante ficheros .vmdk, y atendiendo a su nombre podemos ver la finalidad para la que han sido creados. 
+En mi caso la máquina ha sido nombrada como "Ubuntu 64-bit" por lo que está será la raiz común a todos los ficheros. Puesto que es una máquina que ha reservado 80GB en disco, el sistema no crea un único archivo de 80Gb sino que lo divide en varios. El principal se llama:
+Ubuntu 64-bit.vmdk
+Este fichero es muy pequeño ya que unicamente define como se compone el disco virtual completo de la máquina. Es decir da la información que apunta a todos los ficheros siguientes:
+"Ubuntu 64-bit-f001.vmdk" hasta "Ubuntu 64-bit-f021.vmdk" todos ellos de prácticamente 4GB ~ 20 x 4 = 80GB
+
+Estos ficheros representan el estado del disco virtual equivalente al HDD/SSD de la maquina en ese momento concreto.
+
+Los principales archivos y directorios que componen una VM en VMware son:
 
 ### 1. **Directorio de la máquina virtual:**
    - Cada máquina virtual tiene su propio directorio que contiene todos los archivos relacionados con ella.
