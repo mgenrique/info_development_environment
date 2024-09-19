@@ -1,4 +1,4 @@
-# Aumentar tamaño de disco en Ubuntu corriendo en VMWare
+# Aumentar el tamaño del disco virtual en Ubuntu corriendo en VMWare
 https://www.youtube.com/watch?v=brR0G7Fg3i0
 
 ## Verificar el uso del disco (2 formas diferentes)
