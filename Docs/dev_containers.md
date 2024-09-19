@@ -95,7 +95,7 @@ Ejemplo de un archivo `devcontainer.json` para una aplicación desarrollada con 
     "remoteUser": "vscode"  // Usuario predeterminado para trabajar en el contenedor
 }
 ```
-
+Ver el siguiente documento para entender que es un [linter](./linters_info.md)
 ### Explicación de los elementos:
 
 1. **name**: El nombre del contenedor. En este caso, lo llamamos "Python Dev Container".
