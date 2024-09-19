@@ -1,3 +1,5 @@
+# Ejemplo de Custom Component para Home Assistant para crear un sensor del PVPC obtenido de la API de ESIOS con flujo de configuración en Lovelace
+
 Para crear un **custom component** en Home Assistant que obtenga el valor del PVPC desde la **API de ESIOS** y permita configurar el **token** desde la UI mediante un flujo de configuración, debes implementar una integración basada en **config flows**. Esto permite a los usuarios añadir y configurar el componente desde la interfaz de Home Assistant.
 
 A continuación, te muestro cómo puedes modificar el componente para agregar esta funcionalidad.
