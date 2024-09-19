@@ -45,6 +45,10 @@ sudo apt update
 sudo apt install code
 ````
 
+## Utilización
+
+
+## Desinstalación de Visual Studio Code
 Para desinstalar completamente Visual Studio Code y Docker que permita liberar espacio en disco cuando ya no sea necesario el entorno de desarrollo:
 ````bash
 sudo apt remove code --purge
