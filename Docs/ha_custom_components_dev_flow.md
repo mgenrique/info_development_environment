@@ -1,6 +1,10 @@
 # Desarrollar custom components para Home Assistant utilizando Visual Studio Code
 
-Para desarrollar **custom components** para **Home Assistant** utilizando **Visual Studio Code (VSC)**, el enfoque adecuado implica configurar un entorno de desarrollo que facilite la escritura de código, pruebas y despliegue del componente en una instancia de Home Assistant. Aquí te detallo los pasos clave para lograrlo:
+Para desarrollar **custom components** para **Home Assistant** utilizando **Visual Studio Code (VSC)**, el enfoque adecuado implica configurar un entorno de desarrollo que facilite la escritura de código, pruebas y despliegue del componente en una instancia de Home Assistant. 
+
+Para ver ejemplos explicados de varios custom components, en este docuemnto [Ejemplos de CC](./cc_sample_index.md)
+
+Aquí te detallo los pasos clave para lograrlo:
 
 ### 1. **Configurar un entorno de desarrollo local con Docker**
 
