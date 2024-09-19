@@ -5,6 +5,6 @@ Se trata de archivos muy grandes y delicados, que pueden traer consecuencias nef
 VMware, permite la creación de instantaneas para ir congelando estados de la maquina a los que podemos volver posterioremente si algo sale mál.
 
 En todo caso si queremos tener una copia de toda la máquina en otra ubicación, es interesante considerar la información de la propia VMware en el siguiente enlace:
-[Move a Virtual Machine to a New Location or New Host]([https://www.ejemplo.com](https://docs.vmware.com/en/VMware-Workstation-Player-for-Windows/17.0/com.vmware.player.win.using.doc/GUID-62507975-3AD8-44EC-A7D7-F31067C5DC41.html))
+[Move a Virtual Machine to a New Location or New Host](https://docs.vmware.com/en/VMware-Workstation-Player-for-Windows/17.0/com.vmware.player.win.using.doc/GUID-62507975-3AD8-44EC-A7D7-F31067C5DC41.html)
 
 
