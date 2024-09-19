@@ -35,9 +35,9 @@ Todo lo indicado en este docuemnto está orientado a disponer de un entorno de d
 
 La información se ha obtenido de https://developers.home-assistant.io/docs/development_environment/
 
-El objetivo es disponer de un equipo en el que se puedan utilizar y desarrolar contenedores Docker. [info sobre Docker](./Docs/docker_info.md)
+El objetivo es disponer de un equipo en el que se puedan utilizar y desarrolar contenedores Docker. [Info sobre Docker](./Docs/docker_info.md)
 
-Para ello se necesitará tener instalado Visual Studio Code [info VSC](./Docs/vsc_info.md)
+Para ello se necesitará tener instalado Visual Studio Code [Info VSC](./Docs/vsc_info.md)
 
 Dentro de VSC, la forma de desarrollar contenedores pasa por disponer del complemento Dev Containers. [Info Dev Containers](./Docs/dev_containers.md)
 
