@@ -8,6 +8,20 @@ Un *workspace* en VS Code representa un entorno de trabajo que puede contener m�
 - **Crear un workspace**: Puedes abrir una carpeta desde el menú "File" > "Open Folder", lo que creará un *workspace* básico con una única carpeta. Si deseas agregar más carpetas, puedes hacerlo a través de "File" > "Add Folder to Workspace".
 - **Workspace settings**: VS Code permite personalizar configuraciones específicas para un *workspace* mediante el archivo `settings.json`. Esto es útil para mantener diferentes configuraciones de extensiones o reglas para proyectos distintos.
 
+Para cerrar un *workspace* en Visual Studio Code e iniciar otro, sigue estos pasos:
+
+1. **Cerrar el workspace actual**:
+   - Dirígete al menú principal y selecciona `File` > `Close Folder` si estás trabajando con un solo proyecto o carpeta.
+   - Si estás en un *workspace* con múltiples carpetas, selecciona `File` > `Close Workspace`.
+
+2. **Abrir un nuevo workspace o carpeta**:
+   - Una vez cerrado el *workspace* anterior, abre el nuevo proyecto seleccionando `File` > `Open Folder...` y elige la carpeta del nuevo proyecto.
+   - Si quieres iniciar un nuevo *workspace* con varias carpetas, selecciona `File` > `Add Folder to Workspace...` después de abrir la primera carpeta.
+
+Alternativamente, puedes simplemente abrir un nuevo proyecto o *workspace* sin cerrar el actual, y Visual Studio Code automáticamente reemplazará el *workspace* activo.
+
+Este proceso te permite cambiar rápidamente entre diferentes proyectos o espacios de trabajo sin complicaciones.
+
 ### Terminal Integrado
 VS Code incluye un terminal integrado que te permite ejecutar comandos de shell o de consola directamente desde el editor sin tener que cambiar a otra ventana. Soporta múltiples terminales y puede configurarse para diferentes tipos de terminal (bash, PowerShell, cmd, entre otros).
 
