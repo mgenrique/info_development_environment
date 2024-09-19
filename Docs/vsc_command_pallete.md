@@ -1,3 +1,4 @@
+# Paleta de comandos de Visual Studio Code
 En **Visual Studio Code**, al presionar `Ctrl + Shift + P` (o `Ctrl + Mayús + P`), se abre la **paleta de comandos**. Esta es una herramienta extremadamente útil que te permite acceder rápidamente a una amplia gama de funciones y comandos en Visual Studio Code.
 
 ### ¿Qué puedes hacer con la paleta de comandos?
