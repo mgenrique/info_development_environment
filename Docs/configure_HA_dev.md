@@ -50,15 +50,15 @@ En caso de fallos y cuando se hagan cambios reconstruir el contenedor tal como s
 
 ... para lo que pueden ser utiles los siguiente documentos:
 
-Información sobre Docker en este documento [docker_info](./docker_info.md)
+Información sobre Docker, en este documento [docker_info](./docker_info.md)
 
-Información sobre Visual Studio Code en este documento [vsc_info](./vsc_info.md)
+Información sobre Visual Studio Code, en este documento [vsc_info](./vsc_info.md)
 
-Información sobre Dev Containers en este documento [dev_containers](./dev_containers.md)
+Información sobre Dev Containers, en este documento [dev_containers](./dev_containers.md)
 
-Información sobre el uso de git y Github en este documento [github_intro](./github_intro.md)
+Información sobre el uso de git y Github, en este documento [github_intro](./github_intro.md)
 
-Información sobre como crear componentes personalizados (Custom Components) para Home Assistant este documento [Crear CC en HA](./ha_custom_components_dev_flow.md)
+Información sobre como crear componentes personalizados (Custom Components) para Home Assistant, en este documento [Crear CC en HA](./ha_custom_components_dev_flow.md)
 
 
 
