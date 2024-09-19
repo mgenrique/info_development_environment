@@ -51,6 +51,7 @@ Para facilitar el desarrollo, es útil ejecutar Home Assistant en un contenedor 
        sensor.py
    ```
 Para ayudar en la creación de estructuras más complejas, es recomedable usar el script scaffold. Mas info en [CC en HA con scaffold](./ha_custom_components_scaffold.md)
+
 2. **Configurar un entorno virtual (opcional)**: Aunque Docker proporciona un entorno aislado, puedes configurar un entorno virtual para el desarrollo si lo prefieres:
    ```bash
    python -m venv venv
