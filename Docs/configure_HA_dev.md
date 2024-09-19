@@ -56,9 +56,13 @@ Información sobre Visual Studio Code, en este documento [vsc_info](./vsc_info.m
 
 Información sobre Dev Containers, en este documento [dev_containers](./dev_containers.md)
 
+Información sobre los ficheros de Dev Containers, en este documento [dev_containers_files](./dev_containers_files.md)
+
 Información sobre el uso de git y Github, en este documento [github_intro](./github_intro.md)
 
 Información sobre como crear componentes personalizados (Custom Components) para Home Assistant, en este documento [Crear CC en HA](./ha_custom_components_dev_flow.md)
+
+Información sobre como ejecutar HA desde Docker sin abrir Visual Studio Code, en este documento [ha_docker_run](./ha_docker_run.md)
 
 
 
