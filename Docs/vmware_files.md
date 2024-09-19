@@ -1,3 +1,5 @@
+# Archivos y directorios de VMware
+
 En VMware, las máquinas virtuales (VM) están definidas por varios archivos y directorios que contienen configuraciones, datos del disco, y otros aspectos necesarios para su funcionamiento. 
 
 Las máquinas virtuales de VMware pueden componerse de dos directorios principales, o bien reunir en uno solo toda la información.
@@ -28,6 +30,9 @@ Donde el primer grupo de números `000001` hace referencia a la primera instant�
 Según se van creando nuevas instantaneas aparecerán más cantidad de ficheros, por ejemplo para la segunda snapshot:
 
 `Ubuntu 64-bit-000002-s001.vmdk` a `Ubuntu 64-bit-000002-s021.vmdk`
+
+Para el caso de está máquina el espacio necesario en disco en la maquina anfitriona (host), cuando tan solo se tienen 3 snapshot es de unos 100GB.
+No obstante, para los backups es conveniente generar archivos comprimdos que suelen reducirse hasta el orden de los 10GB. 
 
 Tras este inciso, pasamos a ver los principales archivos y directorios que componen una VM en VMware:
 
