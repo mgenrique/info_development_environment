@@ -26,7 +26,8 @@ Ademas duarante el uso de la MV se van a generar otros ficheros `.vmdk`
 
 `Ubuntu 64-bit-000001-s001.vmdk` a `Ubuntu 64-bit-000001-s021.vmdk`
 
-Donde el primer grupo de números `000001` hace referencia a la primera instantánea (snapshot)
+Donde el primer grupo de números `000001` hace referencia a la primera instantánea (snapshot).
+
 Según se van creando nuevas instantaneas aparecerán más cantidad de ficheros, por ejemplo para la segunda snapshot:
 
 `Ubuntu 64-bit-000002-s001.vmdk` a `Ubuntu 64-bit-000002-s021.vmdk`
