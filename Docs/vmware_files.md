@@ -7,15 +7,21 @@ Las máquinas virtuales de VMware pueden componerse de dos directorios principal
 
 Todos los datos se pueden llegar a reunir en un solo directorio ya que VMware tiene una forma particular de nombrar los ficheros .vmdk que representan la unidad de disco virtual que equivale a un HDD/SSD en una máquina real.
 
-En una maquina virtual determinada habrá bastante ficheros .vmdk, y atendiendo a su nombre podemos ver la finalidad para la que han sido creados. 
-En mi caso la máquina ha sido nombrada como "Ubuntu 64-bit" por lo que está será la raiz común a todos los ficheros. Puesto que es una máquina que ha reservado 80GB en disco, el sistema no crea un único archivo de 80Gb sino que lo divide en varios. El principal se llama:
-Ubuntu 64-bit.vmdk
+En una maquina virtual determinada habrá bastante ficheros `.vmdk`, y atendiendo a su nombre podemos ver la finalidad para la que han sido creados. 
+En mi caso la máquina ha sido nombrada como "Ubuntu 64-bit" por lo que está será la raiz común a todos los ficheros. 
+Puesto que es una máquina que ha reservado 80GB en disco, el sistema no crea un único archivo de 80Gb sino que lo divide en varios. El principal se llama:
+`Ubuntu 64-bit.vmdk`
 Este fichero es muy pequeño ya que unicamente define como se compone el disco virtual completo de la máquina. Es decir da la información que apunta a todos los ficheros siguientes:
-"Ubuntu 64-bit-f001.vmdk" hasta "Ubuntu 64-bit-f021.vmdk" todos ellos de prácticamente 4GB ~ 20 x 4 = 80GB
+`Ubuntu 64-bit-f001.vmdk` hasta `Ubuntu 64-bit-f021.vmdk` todos ellos de prácticamente 4GB ~ 20 x 4 = 80GB
 
 Estos ficheros representan el estado del disco virtual equivalente al HDD/SSD de la maquina en ese momento concreto.
+Ademas duarante el uso de la MV se van a generar otros ficheros `.vmdk`
+`Ubuntu 64-bit-000001-s001.vmdk` a `Ubuntu 64-bit-000001-s021.vmdk`
+Donde el primer grupo de números `000001` hace referencia a la primera instantánea (snapshot)
+Según se van creando nuevas instantaneas aparecerán más cantidad de ficheros, por ejemplo para la segunda snapshot:
+`Ubuntu 64-bit-000002-s001.vmdk` a `Ubuntu 64-bit-000002-s021.vmdk`
 
-Los principales archivos y directorios que componen una VM en VMware son:
+Tras este inciso, pasamos a ver los principales archivos y directorios que componen una VM en VMware:
 
 ### 1. **Directorio de la máquina virtual:**
    - Cada máquina virtual tiene su propio directorio que contiene todos los archivos relacionados con ella.
