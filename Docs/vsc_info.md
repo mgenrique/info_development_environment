@@ -47,6 +47,7 @@ sudo apt install code
 
 ## Utilización
 
+En el siguiente documento se puede encontrar información sobre como usar la paleta de comandos [VSC command pallete](~/Docs/vsc_command_pallete.md)
 
 ## Desinstalación de Visual Studio Code
 Para desinstalar completamente Visual Studio Code y Docker que permita liberar espacio en disco cuando ya no sea necesario el entorno de desarrollo:
