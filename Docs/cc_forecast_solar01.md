@@ -1,6 +1,6 @@
 # Ejemplo de custom component para Home Assistant que genera un sensor cuyo valor lo obtiene de la API de https://api.forecast.solar/
 
-A continuación te muestro un ejemplo de un **custom component** para Home Assistant que obtiene el valor de los **watts de las próximas 6 horas** desde la API de [Forecast.Solar](https://api.forecast.solar/) y lo muestra como un sensor.
+A continuación te muestro un ejemplo de un **custom component** para Home Assistant que obtiene el valor de los **watts de las próximas 6 horas** desde la API de [API Forecast.Solar](https://api.forecast.solar/) [WEB Forecast.Solar](https://forecast.solar/) y lo muestra como un sensor.
 
 ### Estructura del componente
 
