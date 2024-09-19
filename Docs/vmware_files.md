@@ -1,6 +1,6 @@
 En VMware, las máquinas virtuales (VM) están definidas por varios archivos y directorios que contienen configuraciones, datos del disco, y otros aspectos necesarios para su funcionamiento. 
 
-Las máquinas virtuales de VMware pueden componerse de dos directorios principaleso bien reunir en uno solo toda la información
+Las máquinas virtuales de VMware pueden componerse de dos directorios principales, o bien reunir en uno solo toda la información.
 
 1. Directorio de configuración de la máquina: Basicamente contiene los settings e información sobre las instantaneas
 2. Directo de almacenamiento de la imagen de disco duro virtual.
