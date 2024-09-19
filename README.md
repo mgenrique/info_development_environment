@@ -29,6 +29,17 @@ La solución en esta guia: hyperv_problem.md
 
 Otras consideraciones útiles para el manejo de maquinas virtuales con VMware se pueden consultar en [Info VMware](./Docs/vmware_info.md)
 
+## Descripción del entorno de desarrollo
+
+Todo lo indicado en este docuemnto está orientado a disponer de un entorno de desarrollo para `Home Assitant`
+
+La información se ha obtenido de https://developers.home-assistant.io/docs/development_environment/
+
+El objetivo es disponer de un equipo en el que se puedan utilizar y desarrolar contenedores Docker. [info sobre Docker](./Docs/docker_info.md)
+Para ello se necesitará tener instalado Visual Studio Code [info VSC](./Docs/vsc_info.md)
+Dentro de VSC, la forma de desarrollar contenedores pasa por disponer del complemento Dev Containers. [Info Dev Containers](./Docs/dev_containers.md)
+Además será necesario disponer de un usuario registrado en Github, y que este quede integrado dentro del sistema. [Info Git](./Docs/github_intro.md)
+
 ## 1. Actualizar el sistema
 
 Primero, asegúrate de que tu sistema esté actualizado:
