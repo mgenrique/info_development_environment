@@ -1,3 +1,11 @@
+Para generar un entorno de desarrollo para Home Assistant resulta conveniente disponer de un entorno Linux Nativo. Es posible hacerlo en Windows medainte WSL (Windows Subsystem for Linux) aunque no es lo ideal.
+Por tanto lo primero será dispponer de una máquina física o virtual con Ubuntu >=22.04.5 LTS 64bits y escritorio GNOME con configuración por defecto. 
+
+En mi caso lo he realizado en una MV con WMware pero podría perfectamente ser una maquina real o una máquina virtual con VirtualBox.
+
+El objetivo de esta documentación es obtener un entorno totalmente configurado y dar algunas informaciones adicionales que permiten mantenerlo en buen estado.
+
+Keywords: Home Assistan, Docker, Docker Desktop, Visual Studio Code, Dev Containers, Python, Git, Github, VMware
 
 # Configuración de Docker Desktop y Visual Studio Code en Ubuntu sobre máquina virtual VMware
 
