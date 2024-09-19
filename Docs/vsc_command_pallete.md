@@ -27,3 +27,64 @@ El atajo `F1` también abre la paleta de comandos, funcionando de manera idénti
 - **Abrir archivo**: `Ctrl + Shift + P`, escribe el nombre del archivo que deseas abrir.
 
 En resumen, la paleta de comandos es una herramienta clave para navegar y usar Visual Studio Code de manera eficiente, ya que permite acceder rápidamente a cualquier funcionalidad disponible sin tener que buscarla en los menús.
+
+## Personalización de la paleta de comandos de Visual Studio Code
+Para agregar comandos específicos a la Paleta de Comandos en un workspace de Visual Studio Code (VS Code), puedes hacerlo a través de las siguientes opciones:
+
+1. Usar tareas personalizadas en tasks.json
+Puedes crear tareas personalizadas que luego aparecerán en la Paleta de Comandos bajo el comando "Run Task". Para hacer esto:
+
+Abre la configuración de tu workspace en VS Code.
+Ve a `Terminal` > `Configure Tasks` > `Create tasks.json file from template`.
+En el archivo `tasks.json` que se genera, agrega tus comandos personalizados. Un ejemplo básico podría ser:
+
+````json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Mi Comando Personalizado",
+      "type": "shell",
+      "command": "echo Hola Mundo",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
+````
+2. Extensiones para agregar comandos personalizados
+Si necesitas un mayor control, puedes crear una extensión para Visual Studio Code. Este método requiere que sepas desarrollar extensiones, pero te permitirá agregar comandos personalizados directamente en la Paleta de Comandos.
+
+Crea un proyecto de extensión utilizando la línea de comandos:
+
+````bash
+yo code
+````bash
+Define los comandos en el archivo `package.json` de la extensión. Aquí un ejemplo:
+
+
+````json
+{
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.miComandoPersonalizado",
+        "title": "Mi Comando Personalizado"
+      }
+    ]
+  }
+}
+````
+3. En el archivo `src/extension.ts` (o e`xtension.js`), define la lógica de tu comando:
+````typescript
+import * as vscode from 'vscode';
+
+export
+````
+
