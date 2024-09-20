@@ -3,21 +3,24 @@
 Para explicar la sintaxis de PlantUML lo mejor es ver un par de ejemplos, sobre un caso concreto.
 
 Con PlantUML, vamos a intentar definir una maquina de estados con las siguientes caracteristicas:
+
 t es el tiempo actual,  t_last el tiempo de la última lectura, Tm es el peroido de muestreo
+
 sensors_ok, y actuators_ok, calcs_ok, outputs_ok representan valores booleanos que reflejan si sensores, actuadores, calculos y salidas están disponibles.
+
 Estados:
-E1: esperar nuevo muestreo
-E2: esperar sensores
-E3: verificar actuadores
-E4: calcular salidas
-E5: actualizar salidas
+- E1: esperar nuevo muestreo
+- E2: esperar sensores
+- E3: verificar actuadores
+- E4: calcular salidas
+- E5: actualizar salidas
 
 Funcionamiento: 
-En E1 if (t-tlast>Tm) then E2 else E1
-En E2, if sensors_ok then E3 else E1
-En E3, if actuators_ok then E4 else E1
-En E4, if calcs_ok then E5 else E4
-En E5, if outputs_ok then E1 else E3
+- En E1 if (t-tlast>Tm) then E2 else E1
+- En E2, if sensors_ok then E3 else E1
+- En E3, if actuators_ok then E4 else E1
+- En E4, if calcs_ok then E5 else E4
+- En E5, if outputs_ok then E1 else E3
 
 
 ### Código de PlantUML para tu máquina de estados:
