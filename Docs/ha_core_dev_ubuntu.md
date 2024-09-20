@@ -19,8 +19,18 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
      ```bash
      sudo apt install python3.10 python3.10-venv python3.10-dev -y
      ```
+     Si tienes ya otro Python instalado lo puedes comprobar con
+     ````bash
+     python3 --version
+     which python3
+     ````
+     Si te arroja por ejemplo `Python 3.12.3` instalado en `/usr/bin/python3` puedes simplemente hacer
+     ````bash
+     sudo apt install python3.12-venv python3.12-dev -y
+     ````
+     
 
-3. **Instalar otras dependencias**:
+4. **Instalar otras dependencias**:
    - También necesitarás algunos paquetes adicionales como `gcc` para compilar algunas dependencias de Home Assistant:
      ```bash
      sudo apt install build-essential libffi-dev libssl-dev python3-pip -y
