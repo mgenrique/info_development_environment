@@ -21,14 +21,15 @@
    - Son útiles para gestionar bases de datos, archivos generados por la aplicación o datos compartidos entre varios contenedores.
 
    Ejemplo: Si un contenedor MySQL almacena los datos en un volumen, los datos permanecerán disponibles incluso si detienes o eliminas el contenedor.
+   Mas información sobre como gestionar volúmenes en [docker_volumes](./docker_volumes.md)
 
-4. **Puertos**:
+5. **Puertos**:
    - Los puertos en Docker permiten que los servicios dentro de un contenedor sean accesibles desde fuera del mismo. Cada contenedor tiene su propia red aislada, y puedes exponer un puerto del contenedor y mapearlo a un puerto del sistema anfitrión.
    - Esto es esencial para que las aplicaciones web, bases de datos u otros servicios puedan ser accesibles desde tu navegador u otras aplicaciones.
 
    Ejemplo: Si tienes una aplicación web que corre en el puerto 5000 dentro del contenedor, puedes mapear ese puerto al puerto 8080 en tu máquina anfitriona, haciendo que la aplicación sea accesible en `localhost:8080`.
 
-5. **Dockerfile**:
+6. **Dockerfile**:
    - Un **Dockerfile** es un archivo de texto que contiene una serie de instrucciones para crear una imagen Docker. Define qué sistema operativo se debe usar, qué dependencias se deben instalar, y cómo debe configurarse la aplicación dentro del contenedor.
 
    Ejemplo de un Dockerfile para una aplicación Node.js:
