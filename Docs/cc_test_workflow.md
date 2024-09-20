@@ -5,7 +5,7 @@ Para probar y depurar tu componente personalizado en Home Assistant, te recomien
 #### 1. **Prepara tu entorno de desarrollo**:
    - **Instala Home Assistant en un entorno de desarrollo**:
      - Puedes usar **Home Assistant Core** instalado en tu máquina o en un entorno Docker.
-     - Alternativamente, si prefieres trabajar con contenedores, puedes usar **Dev Containers** con Visual Studio Code (lo que ya has mencionado que has probado anteriormente).
+     - Alternativamente, si prefieres trabajar con contenedores, puedes usar **Dev Containers** con Visual Studio Code.
    
    - **Configura tu entorno virtual (opcional)**:
      - Si trabajas con Home Assistant Core directamente, es recomendable usar un entorno virtual para aislar las dependencias:
@@ -108,4 +108,4 @@ Para probar y depurar tu componente personalizado en Home Assistant, te recomien
 6. Prueba la máquina de estados y la frecuencia de actualización de los sensores.
 7. Realiza ajustes, recarga el componente y repite el proceso hasta que todo funcione correctamente.
 
-Con este flujo de trabajo, podrás probar y depurar eficientemente tu componente `PVController` en Home Assistant. ¡Déjame saber si tienes alguna pregunta o si encuentras algún problema en el camino!
+Con este flujo de trabajo, podrás probar y depurar eficientemente tu componente `PVController` en Home Assistant.
