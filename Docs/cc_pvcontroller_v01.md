@@ -1,4 +1,4 @@
-# Controlador basado en máquina de estados en un componente de Home Assistant. 
+# Controlador basado en máquina de estados en un componente de Home Assistant, con lecturas de de la API de ESIOS para el PVPC y de la API de Forecast Solar para los Watios que se espera producir
 Implementa tres sensores denntro del archivo `sensor.py` : 
 - `PVControllerStateSensor`: para informar del estado del componente
 - `PVPCCostSensor`: Obtiene datos para las próximas 6 horas de la API de ESIOS para el PVPC
