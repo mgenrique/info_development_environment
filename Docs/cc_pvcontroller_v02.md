@@ -160,7 +160,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.event import async_track_time_interval
 from .state_machine import CicloStateMachine, ejecutar_maquina_de_estados
 from .sensor import PVControllerStateSensor, PVPCCostSensor, SolarForecastSensor
-from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
+from .const import (DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY, CONF_LATITUDE, CONF_LONGITUDE,
+    CONF_DECIMAL, CONF_PEAK_POWER, CONF_DECLINATION, CONF_AZIMUTH)
 import datetime
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
@@ -169,6 +170,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     Tm = entry.data.get(CONF_TM)
     esios_token = entry.data.get(CONF_ESIOS_TOKEN)
     forecast_api_key = entry.data.get(CONF_FORECAST_API_KEY)
+
+    # Obtener los valores configurados para la API de Forecast Solar
+    latitude = entry.data.get(CONF_LATITUDE)
+    longitude = entry.data.get(CONF_LONGITUDE)
+    decimal = entry.data.get(CONF_DECIMAL)
+    peak_power = entry.data.get(CONF_PEAK_POWER)
+    declination = entry.data.get(CONF_DECLINATION)
+    azimuth = entry.data.get(CONF_AZIMUTH)    
 
     # Inicializar la máquina de estados con Tm
     ciclo = CicloStateMachine()
@@ -207,8 +216,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     hass.async_create_task(
         hass.helpers.entity_component.async_add_entities([
             PVPCCostSensor(hass, esios_token),
-            SolarForecastSensor(hass, forecast_api_key),
-            PVControllerStateSensor(hass)
+            SolarForecastSensor(hass, forecast_api_key, latitude, longitude, decimal, peak_power, declination, azimuth),
+            PVControllerStateSensor(hass, ciclo) # Pasamos la máquina de estados al sensor
         ])
     )
 
@@ -226,16 +235,28 @@ El archivo `sensor.py` define varios sensores que reportan el estado y obtienen 
 
 ```python
 import requests
+import logging
+from datetime import timedelta
 from homeassistant.helpers.entity import Entity
-from .const import DOMAIN, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
+from homeassistant.util import Throttle
+from .state_machine import CicloStateMachine
+from .const import (
+    DOMAIN, CONF_FORECAST_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_DECIMAL,
+    CONF_PEAK_POWER, CONF_DECLINATION, CONF_AZIMUTH, MIN_TIME_BETWEEN_UPDATES_SOLARFORECAST
+)
+
+_LOGGER = logging.getLogger(__name__)
+
 
 class PVControllerStateSensor(Entity):
     """Representa el sensor de estado de la máquina de estados."""
 
-    def __init__(self, hass):
+    def __init__(self, hass, machine):
         """Inicializa el sensor."""
         self.hass = hass
         self._state = None
+        self._machine = machine  # Referencia a la máquina de estados CicloStateMachine
+        self._machine_state = None
 
     @property
     def name(self):
@@ -243,8 +264,15 @@ class PVControllerStateSensor(Entity):
 
     @property
     def state(self):
+        """Refleja el estado actual del sensor."""
         return self._state
-
+        #return self._machine_state
+        
+    @property
+    def machine_state(self):
+        """Devuelve el estado actual de la máquina de estados."""
+        return self._machine.current_state.name if self._machine.current_state else "Desconocido"        
+    
     async def async_update(self):
         """Actualizar el estado actual del sensor basado en los valores."""
         # Accede a los valores almacenados en hass.data
@@ -262,13 +290,12 @@ class PVControllerStateSensor(Entity):
         else:
             self._state = "Operación normal"
 
+        """Actualiza el estado del sensor con el estado actual de la máquina de estados."""
+        self._machine_state = self.machine_state
+
         # Llama a async_schedule_update_ha_state() para notificar los cambios
         self.async_schedule_update_ha_state()
 
-
-import requests
-from homeassistant.helpers.entity import Entity
-from .const import DOMAIN, CONF_ESIOS_TOKEN
 
 class PVPCCostSensor(Entity):
     """Sensor para obtener el PVPC de la API de ESIOS."""
@@ -300,7 +327,10 @@ class PVPCCostSensor(Entity):
     def read_values(self):
         """Devuelve los valores leídos del PVPC."""
         return self._read_values
-
+ 
+    # Decorador @Throttle(MIN_TIME_BETWEEN_UPDATES_PVPC) Este decorador asegura que Home Assistant no ejecute la función async_update más de una vez cada 15 minutos
+    # Cualquier intento de actualizar el sensor dentro de ese período simplemente omitirá la llamada a la API 
+    @Throttle(MIN_TIME_BETWEEN_UPDATES_PVPC)
     async def async_update(self):
         """Actualizar el estado y los valores consultando la API de ESIOS."""
         headers = {
@@ -327,19 +357,23 @@ class PVPCCostSensor(Entity):
         # Notificar a Home Assistant que el estado del sensor ha cambiado
         self.async_schedule_update_ha_state()
         
-import requests
-from homeassistant.helpers.entity import Entity
-from .const import DOMAIN, CONF_FORECAST_API_KEY
 
 class SolarForecastSensor(Entity):
     """Sensor para obtener el pronóstico solar de la API Forecast Solar."""
 
-    def __init__(self, hass, forecast_api_key):
-        """Inicializa el sensor con la API key de Forecast Solar."""
+
+    def __init__(self, hass, forecast_api_key, latitude, longitude, decimal, peak_power, declination, azimuth):
+        """Inicializa el sensor con la API key de Forecast Solar y los parámetros necesarios"""
         self.hass = hass
         self._state = None
         self._read_values = None  # Aquí guardaremos los valores leídos
         self._forecast_api_key = forecast_api_key
+        self._latitude = latitude
+        self._longitude = longitude
+        self._decimal = decimal
+        self._peak_power = peak_power
+        self._declination = declination
+        self._azimuth = azimuth        
         """
         Para acceder al valor del estado del pronóstico solar usar
         hass.states.get("sensor.solar_forecast_sensor").state
@@ -361,16 +395,49 @@ class SolarForecastSensor(Entity):
     def read_values(self):
         """Devuelve los valores leídos del pronóstico solar."""
         return self._read_values
-
+        
+    @property
+    def unit_of_measurement(self):
+        """Definir la unidad de medida."""
+        return "W"        
+    
+    # Decorador @Throttle(MIN_TIME_BETWEEN_UPDATES_SOLARFORECAST) Este decorador asegura que Home Assistant no ejecute la función async_update más de una vez cada hora
+    # Cualquier intento de actualizar el sensor dentro de ese período simplemente omitirá la llamada a la API
+    @Throttle(MIN_TIME_BETWEEN_UPDATES_SOLARFORECAST)  # Limitar las actualizaciones a una vez por hora
     async def async_update(self):
         """Actualizar el estado y los valores consultando la API de Forecast Solar."""
         try:
-            # Realizamos la solicitud a la API de Forecast Solar
+            """
+            # Realizamos la solicitud a la API de Forecast Solar en modo estimado
             response = requests.get(
                 f"https://api.forecast.solar/{self._forecast_api_key}/estimated_actual",
                 timeout=10
             )
-            response.raise_for_status()
+            """
+            """
+            Otra manera
+            API_SOLARFORECAST_URL = "https://api.forecast.solar/estimate/{latitude}/{longitude}/{dec}/{az}/{kwp}"
+            MIN_TIME_BETWEEN_UPDATES_SOLARFORECAST = timedelta(hours=1)
+            response = requests.get(
+                API_SOLARFORECAST_URL.format(
+                    latitude=self._latitude,
+                    longitude=self._longitude,
+                    dec=self._declination,
+                    az=self._azimuth,
+                    kwp=self._peak_power
+                ),
+                headers={"Authorization": f"Bearer {self._api_key}"}
+            )            
+            """
+            # Realizamos la solicitud a la API de Forecast Solar con los parámetros configurados
+            response = requests.get(
+                f"https://api.forecast.solar/{self._forecast_api_key}/{self._latitude}/{self._longitude}/"
+                f"{self._decimal}/{self._peak_power}/{self._declination}/{self._azimuth}",
+                timeout=10
+            )
+
+            
+            response.raise_for_status() #método de la librería requests que lanza una excepción si la respuesta HTTP tiene un código de estado indicativo de error
             data = response.json()
 
             # Procesamos los datos obtenidos de las próximas 6 horas
@@ -383,10 +450,11 @@ class SolarForecastSensor(Entity):
             # Si ocurre algún error, establecer el estado a "error"
             self._state = "error"
             self._read_values = None  # Reiniciar los valores en caso de error
+            _LOGGER.error(f"Error en la API de Forecast.Solar: {response.status_code}")
 
         # Notificar a Home Assistant que el estado del sensor ha cambiado
         self.async_schedule_update_ha_state()
-        
+                
 ```
 
 ### 6. **Archivo `state_machine.py`**
@@ -522,7 +590,6 @@ def calcular(hass):
     else:
         _LOGGER.warning("No se pudieron obtener los valores de los sensores para el cálculo.")
         return False  # No se pudieron obtener los datos necesarios   
-
 ```
 
 ### Resumen del flujo:
