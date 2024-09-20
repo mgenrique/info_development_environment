@@ -116,12 +116,18 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM
 from .state_machine import CicloStateMachine, ejecutar_maquina_de_estados
+from .sensor import PVControllerStateSensor
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up PV Controller from a config entry."""
     inverter_ip = entry.data.get(CONF_INVERTER_IP)
     Tm = entry.data.get(CONF_TM)
 
+    # Agregar el sensor de estado
+    hass.async_create_task(
+        hass.helpers.entity_component.async_add_entities([PVControllerStateSensor(hass)])
+    )
+    
     # Inicializar la máquina de estados con Tm
     ciclo = CicloStateMachine()
 
