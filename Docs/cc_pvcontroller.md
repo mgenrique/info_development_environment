@@ -178,8 +178,25 @@ class PVControllerStateSensor(Entity):
         return self._state
 
     async def async_update(self):
-        """Actualizar el estado actual de la máquina de estados."""
-        self._state = self.hass.data[DOMAIN].get('current_state', 'Unknown')
+        """Actualizar el estado actual del sensor basado en los valores."""
+        # Accede a los valores almacenados en hass.data
+        sensors_ok = self.hass.data[DOMAIN].get('sensors_ok')
+        inverter_ok = self.hass.data[DOMAIN].get('inverter_ok')
+        calcs_ok = self.hass.data[DOMAIN].get('calcs_ok')
+
+        # Define el estado en función de los valores
+        if not sensors_ok:
+            self._state = "Error: Sensores no disponibles"
+        elif not inverter_ok:
+            self._state = "Error: Inversor no disponible"
+        elif not calcs_ok:
+            self._state = "Error: Cálculos fallidos"
+        else:
+            self._state = "Operación normal"
+
+        # Llama a async_schedule_update_ha_state() para notificar los cambios
+        self.async_schedule_update_ha_state()
+
 ```
 
 ### 6. **Archivo `state_machine.py`**
