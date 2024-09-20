@@ -1,4 +1,8 @@
-Con PlantUML, me gustaria definir una maquina de estados con las siguientes caracteristicas:
+# Lenguaje PlantUML
+
+Para explicar la sintaxis de PlantUML lo mejor es ver un par de ejemplos, sobre un caso concreto.
+
+Con PlantUML, vamos a intentar definir una maquina de estados con las siguientes caracteristicas:
 t es el tiempo actual,  t_last el tiempo de la última lectura, Tm es el peroido de muestreo
 sensors_ok, y actuators_ok, calcs_ok, outputs_ok representan valores booleanos que reflejan si sensores, actuadores, calculos y salidas están disponibles.
 Estados:
@@ -15,8 +19,6 @@ En E3, if actuators_ok then E4 else E1
 En E4, if calcs_ok then E5 else E4
 En E5, if outputs_ok then E1 else E3
 
-
-Para definir una máquina de estados en **PlantUML** con las características que describes, puedes usar la sintaxis de máquinas de estados de PlantUML. A continuación, te proporciono una implementación para representar los estados y transiciones según tu descripción.
 
 ### Código de PlantUML para tu máquina de estados:
 
