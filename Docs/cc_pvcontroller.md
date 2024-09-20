@@ -217,75 +217,97 @@ Respecto al ejemplo de una máquina de estados generica en Python, al integrarlo
 Esto es necesario para que la máquina de estados pueda intercambiar información con Home Assistant, como por ejemplo comunicar el valor de sensors_ok, inverter_ok o calcs_ok para que el sensor del CC actualice su estado
 
 ```python
+import logging
 from statemachine import State, StateMachine
 
-# Definimos los estados
+# Crear un logger para el componente
+_LOGGER = logging.getLogger(__name__)
+"""
+_LOGGER = logging.getLogger(__name__) crea un logger específico para el componente. 
+Usar __name__ asegura que el logger se asocie con el nombre del módulo en el que se está ejecutando, lo que facilita la depuración.
+_LOGGER.info("mensaje"): Para mensajes informativos.
+_LOGGER.warning("mensaje"): Para advertencias.
+_LOGGER.error("mensaje"): Para errores críticos.
+"""
+
 class CicloStateMachine(StateMachine):
+    """Definición de la máquina de estados."""
+    # Definición de los estados
     E1 = State("ESPERAR NUEVO CICLO", initial=True)
     E2 = State("ESPERAR SENSORES")
     E3 = State("VERIFICAR INVERSOR")
     E4 = State("CALCULAR SALIDAS")
     E5 = State("ACTUALIZAR SALIDAS")
 
-    # Transiciones
+    # Definición de las transiciones
     fork_state_1 = E1.to(E2) | E1.to(E3)  # El fork va de E1 a E2 y E3
     join_state_1 = E2.to(E4) & E3.to(E4)  # Join combina E2 y E3 en E4
-    calcular_a_actualizar = E4.to(E5)
-    finalizar = E5.to(E1)  # Retorno al estado inicial para nuevo ciclo
+    calcular_a_actualizar = E4.to(E5)     # De E4 a E5 si se calculan correctamente las salidas
+    finalizar = E5.to(E1)                 # Retorno al estado inicial para nuevo ciclo
 
+    # Métodos que se ejecutan al realizar una transición
     def on_fork_state_1(self):
-        print("Fork: Esperar sensores e inversor")
+        _LOGGER.info("Fork: Esperar sensores e inversor")
 
     def on_join_state_1(self):
-        print("Join: Ambos sensores e inversor están OK, calcular salidas")
+        _LOGGER.info("Join: Ambos sensores e inversor están OK, calcular salidas")
 
     def on_E2(self):
-        print("Esperando sensores...")
+        _LOGGER.info("Esperando sensores...")
 
     def on_E3(self):
-        print("Verificando inversor...")
+        _LOGGER.info("Verificando inversor...")
 
     def on_E4(self):
-        print("Calculando salidas...")
+        _LOGGER.info("Calculando salidas...")
 
     def on_E5(self):
-        print("Actualizando salidas...")
+        _LOGGER.info("Actualizando salidas...")
 
-# Máquina de estados
-ciclo = CicloStateMachine()
-
-# Simulación de eventos
+# Función para ejecutar la máquina de estados
 def ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok, hass):
-    # Código de la máquina de estados
-    hass.data[DOMAIN]['sensors_ok'] = sensors_ok
-    hass.data[DOMAIN]['inverter_ok'] = inverter_ok
-    hass.data[DOMAIN]['calcs_ok'] = calcs_ok
-    if t - t_last > Tm:
-        ciclo.fork_state_1()  # Transición del estado E1 al fork E2 y E3
+    """Función que controla la lógica de transición de estados."""
+    
+    ciclo = CicloStateMachine()
 
+    # Verificar si es tiempo de iniciar un nuevo ciclo
+    if t - t_last > Tm:
+        _LOGGER.info(f"Iniciando nuevo ciclo. Tiempo: {t}, Última lectura: {t_last}, Tm: {Tm}")
+        
+        # Transición del estado E1 al fork (E2 y E3)
+        ciclo.fork_state_1()
+
+        # Verificación de sensores y avance a la siguiente etapa
         if sensors_ok:
             ciclo.E2()
+            _LOGGER.info("Sensores están OK")
+        else:
+            _LOGGER.warning("Fallo en sensores")
+
+        # Verificación de inversor y avance a la siguiente etapa
         if inverter_ok:
             ciclo.E3()
+            _LOGGER.info("Inversor está OK")
+        else:
+            _LOGGER.warning("Fallo en inversor")
 
+        # Si tanto sensores como inversor están listos, avanzar a la siguiente fase
         if sensors_ok and inverter_ok:
-            ciclo.join_state_1()  # Join para avanzar al estado E4
+            ciclo.join_state_1()
 
+        # Si los cálculos son correctos, proceder a actualizar las salidas
         if calcs_ok:
-            ciclo.calcular_a_actualizar()  # Transición al estado E5
+            ciclo.calcular_a_actualizar()
+            _LOGGER.info("Cálculos correctos, procediendo a actualizar salidas")
+        else:
+            _LOGGER.warning("Fallo en cálculos, repitiendo la etapa de cálculo")
 
-        ciclo.finalizar()  # Volver a E1 para nuevo ciclo
+        # Volver al estado inicial para comenzar un nuevo ciclo
+        ciclo.finalizar()
+        _LOGGER.info("Ciclo finalizado, listo para un nuevo ciclo.")
+    else:
+        _LOGGER.info("No es tiempo para un nuevo ciclo aún.")
 
-# Ejemplo de uso
-t = 100
-t_last = 50
-Tm = 30
-sensors_ok = True
-inverter_ok = True
-calcs_ok = True
-
-# Ejecutar la máquina de estados
-ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok)
 ```
 
 ### Resumen del flujo:
