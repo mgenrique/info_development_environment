@@ -112,4 +112,5 @@ state E3 : ¿Control externo habilitado?
 ````
 
 El resultado de este código llevado al servidor de PlantUML es el siguiente:
+
 ![diagrama2](../images/plantuml_sample02.png)
