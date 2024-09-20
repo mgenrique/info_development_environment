@@ -1,9 +1,12 @@
-Para integrar el código dentro de un **custom component de Home Assistant** llamado `pv_controller`, puedes seguir estos pasos. Crearemos un componente personalizado con un flujo de configuración para que el usuario pueda ingresar los parámetros **IP del inversor** y **Tm**.
+# Máquina de estados en un componente de Home Assistant
+
+Para integrar el código de la máquina de estados vista en [PlantUML a Python](./sm_uml_2_python.md) dentro de un **custom component de Home Assistant** llamado `pv_controller`, puedes seguir estos pasos. Crearemos un componente personalizado con un flujo de configuración para que el usuario pueda ingresar los parámetros **IP del inversor** y **Tm**.
 
 ### Estructura del custom component
 
 Crea una carpeta en tu directorio de `custom_components` llamada `pv_controller`, con la siguiente estructura básica:
 
+### Estructura del componente:
 ```
 /config
   └── custom_components
@@ -12,7 +15,8 @@ Crea una carpeta en tu directorio de `custom_components` llamada `pv_controller`
           ├── manifest.json
           ├── sensor.py
           ├── const.py
-          └── config_flow.py
+          ├── config_flow.py
+          └── state_machine.py  # Aquí está la definición de la máquina de estados
 ```
 
 ### 1. **Archivo `manifest.json`**
@@ -111,6 +115,7 @@ El archivo `__init__.py` es donde inicializas tu componente y preparas la máqui
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM
+from .state_machine import CicloStateMachine, ejecutar_maquina_de_estados
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up PV Controller from a config entry."""
@@ -145,6 +150,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
     return True
+
 ```
 
 ### 5. **Archivo `sensor.py`**
@@ -176,15 +182,76 @@ class PVControllerStateSensor(Entity):
         self._state = self.hass.data[DOMAIN].get('current_state', 'Unknown')
 ```
 
-### 6. **Incorporar la máquina de estados**
+### 6. **Archivo `state_machine.py`**
 
-Agrega tu código de máquina de estados (que ya hemos implementado antes) dentro del archivo `__init__.py`. Puedes poner la clase `CicloStateMachine` en este archivo o importarla desde otro archivo, como `state_machine.py`.
+El siguiente código corresponde al contenido del fichero `state_machine.py`.
 
 ```python
 from statemachine import State, StateMachine
 
+# Definimos los estados
 class CicloStateMachine(StateMachine):
-    # ... (el código de la máquina de estados que te di anteriormente)
+    E1 = State("ESPERAR NUEVO CICLO", initial=True)
+    E2 = State("ESPERAR SENSORES")
+    E3 = State("VERIFICAR INVERSOR")
+    E4 = State("CALCULAR SALIDAS")
+    E5 = State("ACTUALIZAR SALIDAS")
+
+    # Transiciones
+    fork_state_1 = E1.to(E2) | E1.to(E3)  # El fork va de E1 a E2 y E3
+    join_state_1 = E2.to(E4) & E3.to(E4)  # Join combina E2 y E3 en E4
+    calcular_a_actualizar = E4.to(E5)
+    finalizar = E5.to(E1)  # Retorno al estado inicial para nuevo ciclo
+
+    def on_fork_state_1(self):
+        print("Fork: Esperar sensores e inversor")
+
+    def on_join_state_1(self):
+        print("Join: Ambos sensores e inversor están OK, calcular salidas")
+
+    def on_E2(self):
+        print("Esperando sensores...")
+
+    def on_E3(self):
+        print("Verificando inversor...")
+
+    def on_E4(self):
+        print("Calculando salidas...")
+
+    def on_E5(self):
+        print("Actualizando salidas...")
+
+# Máquina de estados
+ciclo = CicloStateMachine()
+
+# Simulación de eventos
+def ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok):
+    if t - t_last > Tm:
+        ciclo.fork_state_1()  # Transición del estado E1 al fork E2 y E3
+
+        if sensors_ok:
+            ciclo.E2()
+        if inverter_ok:
+            ciclo.E3()
+
+        if sensors_ok and inverter_ok:
+            ciclo.join_state_1()  # Join para avanzar al estado E4
+
+        if calcs_ok:
+            ciclo.calcular_a_actualizar()  # Transición al estado E5
+
+        ciclo.finalizar()  # Volver a E1 para nuevo ciclo
+
+# Ejemplo de uso
+t = 100
+t_last = 50
+Tm = 30
+sensors_ok = True
+inverter_ok = True
+calcs_ok = True
+
+# Ejecutar la máquina de estados
+ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok)
 ```
 
 ### Resumen del flujo:
