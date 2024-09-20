@@ -1,3 +1,5 @@
+# Se recomienda instalar con Python 3.11
+
 # Instalar Home Assistant Core en un PC con Ubuntu y Visual Studio Code en un entorno virtual aislado
 
 El proceso para instalar y configurar **Home Assistant Core** y desarrollar componentes personalizados en un entorno virtual aislado es más sencillo que en Windows porque no se necesita WSL. 
@@ -34,7 +36,17 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
    - También necesitarás algunos paquetes adicionales como `gcc` para compilar algunas dependencias de Home Assistant:
      ```bash
      sudo apt install build-essential libffi-dev libssl-dev python3-pip -y
+     sudo apt install libturbojpeg
+     sudo apt install libjpeg-turbo8-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev
      ```
+
+     Me ha fallado lo anterior y he hecho
+     ````bash
+     mkdir PyTurboJPEG
+     cd PyTurboJPEG
+     git clone https://github.com/lilohuang/PyTurboJPEG.git
+     python setup.py install
+     ````
 
 ### 2. Crear un entorno virtual para Home Assistant
 
@@ -48,14 +60,24 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
 2. **Crear un entorno virtual**:
    - Dentro de este directorio, crea y activa un entorno virtual para aislar las dependencias:
      ```bash
-     python3.12 -m venv venv
-     source venv/bin/activate
+     python3.10 -m venv ha_python_3.1
+     source ha_python_3.1/bin/activate
      ```
+
+     Cada bez que quieras volver a ejecutar hass debes entrar primero al entorno virtual
+     ```bash
+     cd /home/enrique/local_ha/homeassistant
+     source venv/bin/activate
+     ```     
 
 3. **Actualizar `pip`**:
    - Asegúrate de tener la última versión de `pip`, `setuptools` y `wheel`:
      ```bash
      pip install --upgrade pip setuptools wheel
+     ```
+     E instala tambien las liberias para turbojpeg
+     ````bash
+     pip install --upgrade --force-reinstall turbojpeg
      ```
 
 ### 3. Instalar Home Assistant Core
