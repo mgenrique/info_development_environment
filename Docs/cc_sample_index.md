@@ -16,4 +16,7 @@
 
 [cc_test_workflow.md](./cc_test_workflow.md)
 
+[ha_core_dev_win.md](./ha_core_dev_win.md)
+
+[ha_core_dev_ubuntu.md](./ha_core_dev_ubuntu.md)
 
