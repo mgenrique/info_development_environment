@@ -1,6 +1,6 @@
 # Covertir código en lenguaje `PlantUML` a Python con la libreria `statemachine`
 
-Una vez que tenemos definida una máquina de estados en lenguaje `PlantUML` tal como se ha explicado en [sm_plantuml](sm_plantuml.md), podemos plantear su implementación en Python utilizando la libreria `statemachine`
+Una vez que tenemos definida una máquina de estados en lenguaje `PlantUML` tal como se ha explicado en [sm_plantuml](sm_plantuml.md), podemos plantear su implementación en Python utilizando la librería `statemachine`
 
 A continuación se muestra un ejemplo de como usar la librería `statemachine` de Python.
 
