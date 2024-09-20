@@ -1,4 +1,4 @@
-# Se recomienda instalar con Python 3.11
+# Se recomienda instalar con Python 3.12 pero da problemas con la linreria PyTurboJPEG ¿que hacer?
 
 # Instalar Home Assistant Core en un PC con Ubuntu y Visual Studio Code en un entorno virtual aislado
 
