@@ -11,7 +11,6 @@ Se compone de:
 - `def calcular`: que se encarga del procesamiento de las informaciones de los sensores `PVPCCostSensor` y `SolarForecastSensor`. Esta función todavía está incompleta y simplemente hace un cálculo de ejemplo. Para completarla además se deberán obtener los valores aportados por la integración con el custom component de Victron, para incluir en los cálculos el SoC o el consumo actual de la instalación. Puede ser conveniente sacarla de `state_machine.py` y crear un fichero .py dedicado. Si se hace esto poner un import al fichero en `state_machine.py`.
 
 ToDo:
-- Integrar los parametros necesarios para la API de Forecast Solar en el flujo de configuración tal como se hizo en [cc_forecast_solar01](./cc_forecast_solar01.md)
 - Definir como se actualiza el valor de inverter_ok que indicará que somos capaces de leer los valores necesarios del inversor y que el inversor está en un modo de control remoto
 - Crear una procedimiento que se ejecute en `def on_E5` de la clase `CicloStateMachine` en el archivo `state_machine.py` que sea capaz de actualizar el Set Point del Inversor. Posiblemente el inversor no podrá estar funcionando en modo ESS, ni ESS dinamico.
 - Verificar que no hay errores en el código y que el completo se carga en Home Assistant.
@@ -69,6 +68,10 @@ CONF_DECIMAL = "decimal"
 CONF_PEAK_POWER = "peak_power"
 CONF_DECLINATION = "declination"
 CONF_AZIMUTH = "azimuth"
+from datetime import timedelta
+
+MIN_TIME_BETWEEN_UPDATES_SOLARFORECAST = timedelta(hours=1)
+MIN_TIME_BETWEEN_UPDATES_PVPC = timedelta(minutes=15)
 ```
 
 ### 3. **Archivo `config_flow.py`**
@@ -81,7 +84,8 @@ Aquí está el código para definir el flujo:
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
-from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
+from homeassistant.helpers import config_validation as cv  # Importar config_validation como cv, para facilitar la validación de los datos ingresados en el flujo de configuración
+from .const import (DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY, CONF_LATITUDE, CONF_LONGITUDE, CONF_PEAK_POWER, CONF_DECLINATION, CONF_AZIMUTH)
 
 class PVControllerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for PV Controller."""
@@ -103,9 +107,15 @@ class PVControllerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Definir el formulario de configuración
         data_schema = vol.Schema({
             vol.Required(CONF_INVERTER_IP): str,
-            vol.Required(CONF_TM, default=30): int,
+            vol.Required(CONF_TM, default=30): cv.positive_int,  # Validación de enteros positivos
             vol.Required(CONF_ESIOS_TOKEN): str,  # Token para acceder a la API de ESIOS
-            vol.Required(CONF_FORECAST_API_KEY): str  # API Key para Forecast Solar
+            vol.Required(CONF_FORECAST_API_KEY): str,  # API Key para Forecast Solar
+            vol.Required(CONF_LATITUDE): cv.latitude,  # Validación de latitud, normalmente un float pero se concreta más con cv.latitude
+            vol.Required(CONF_LONGITUDE): cv.longitude,  # Validación de longitud, normalmente un float pero se concreta más con cv.longitude
+            vol.Required(CONF_DECIMAL, default=2): cv.positive_int,  # Validación de decimales como entero positivo
+            vol.Required(CONF_PEAK_POWER): cv.positive_float,  # Validación de potencia pico como float positivo
+            vol.Required(CONF_DECLINATION): vol.Coerce(float),  # Convierte a float
+            vol.Required(CONF_AZIMUTH): vol.Coerce(float)  # Convierte a float            
         })
 
         return self.async_show_form(step_id="user", data_schema=data_schema, errors=errors)
