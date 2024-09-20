@@ -1,10 +1,24 @@
-# Máquina de estados en un componente de Home Assistant
+# Controlador basado en máquina de estados en un componente de Home Assistant. 
+Implementa tres sensores denntro del archivo `sensor.py` : 
+- `PVControllerStateSensor`: para informar del estado del componente
+- `PVPCCostSensor`: Obtiene datos para las próximas 6 horas de la API de ESIOS para el PVPC
+- `SolarForecastSensor`: Obtiene datos para las próximas 6 horas de la API de Forecast Solar para los Watios que se espera producir
 
-Para integrar el código de la máquina de estados vista en [PlantUML a Python](./sm_uml_2_python.md) dentro de un **custom component de Home Assistant** llamado `pv_controller`, puedes seguir estos pasos. Crearemos un componente personalizado con un flujo de configuración para que el usuario pueda ingresar los parámetros **IP del inversor** y **Tm**.
+Implementa una máquina de estados como la indicada en  [PlantUML a Python](./sm_uml_2_python.md). Esta maquina de estados está basada en la libreria `statemachine` de Python y define la lógica del diagrama.
+Se compone de:
+- `class CicloStateMachine`: La clase que define la maquina en si misma y que implementa métodos que se ejecutan al llegar a cada uno de los estados.
+- `def ejecutar_maquina_de_estados`: la función que será llamada periodicamente por Home Assistant (en `__init__.py` se llamará a la función `ejecutar_ciclo` periodicamente al definir `async_track_time_interval(hass, ejecutar_ciclo, interval)`: La función `ejecutar_ciclo` hace una llamada a `ejecutar_maquina_de_estados`.
+- `def calcular`: que se encarga del procesamiento de las informaciones de los sensores `PVPCCostSensor` y `SolarForecastSensor`. Esta función todavía está incompleta y simplemente hace un cálculo de ejemplo. Para completarla además se deberán obtener los valores aportados por la integración con el custom component de Victron, para incluir en los cálculos el SoC o el consumo actual de la instalación. Puede ser conveniente sacarla de `state_machine.py` y crear un fichero .py dedicado. Si se hace esto poner un import al fichero en `state_machine.py`.
+
+ToDo:
+- Integrar los parametros necesarios para la API de Forecast Solar en el flujo de configuración tal como se hizo en [cc_forecast_solar01](./cc_forecast_solar01.md)
+- Definir como se actualiza el valor de inverter_ok que indicará que somos capaces de leer los valores necesarios del inversor y que el inversor está en un modo de control remoto
+- Crear una procedimiento que se ejecute en `def on_E5` de la clase `CicloStateMachine` en el archivo `state_machine.py` que sea capaz de actualizar el Set Point del Inversor. Posiblemente el inversor no podrá estar funcionando en modo ESS, ni ESS dinamico.
+- Verificar que no hay errores en el código y que el completo se carga en Home Assistant.
 
 ### Estructura del custom component
 
-Crea una carpeta en tu directorio de `custom_components` llamada `pv_controller`, con la siguiente estructura básica:
+Carpeta en el directorio `custom_components` de Home Assistant llamada `pv_controller`, con la siguiente estructura:
 
 ### Estructura del componente:
 ```
@@ -21,7 +35,7 @@ Crea una carpeta en tu directorio de `custom_components` llamada `pv_controller`
 
 ### 1. **Archivo `manifest.json`**
 
-El archivo `manifest.json` describe tu componente. Puedes configurarlo así:
+El archivo `manifest.json` que describe el componente. Así:
 
 ```json
 {
@@ -41,23 +55,33 @@ El archivo `manifest.json` describe tu componente. Puedes configurarlo así:
 
 ### 2. **Archivo `const.py`**
 
-Define las constantes que usarás, como los nombres de los parámetros:
+Define las constantes que se usan, como los nombres de los parámetros:
 
 ```python
 DOMAIN = "pv_controller"
 CONF_INVERTER_IP = "inverter_ip"
 CONF_TM = "Tm"
+CONF_ESIOS_TOKEN = "esios_token"
+CONF_FORECAST_API_KEY = "forecast_api_key"
+CONF_LATITUDE = "latitude"
+CONF_LONGITUDE = "longitude"
+CONF_DECIMAL = "decimal"
+CONF_PEAK_POWER = "peak_power"
+CONF_DECLINATION = "declination"
+CONF_AZIMUTH = "azimuth"
 ```
 
 ### 3. **Archivo `config_flow.py`**
 
-El flujo de configuración te permitirá al usuario introducir los valores de la IP del inversor y el valor de `Tm`. Aquí está el código para definir el flujo:
+El flujo de configuración te permitirá al usuario introducir los valores de la IP del inversor, el valor de `Tm`,...
+
+Aquí está el código para definir el flujo:
 
 ```python
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.core import callback
-from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM
+from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
 
 class PVControllerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for PV Controller."""
@@ -80,6 +104,8 @@ class PVControllerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         data_schema = vol.Schema({
             vol.Required(CONF_INVERTER_IP): str,
             vol.Required(CONF_TM, default=30): int,
+            vol.Required(CONF_ESIOS_TOKEN): str,  # Token para acceder a la API de ESIOS
+            vol.Required(CONF_FORECAST_API_KEY): str  # API Key para Forecast Solar
         })
 
         return self.async_show_form(step_id="user", data_schema=data_schema, errors=errors)
@@ -106,32 +132,34 @@ class PVControllerOptionsFlowHandler(config_entries.OptionsFlow):
         data_schema = vol.Schema({
             vol.Required(CONF_INVERTER_IP, default=self.config_entry.data.get(CONF_INVERTER_IP)): str,
             vol.Required(CONF_TM, default=self.config_entry.data.get(CONF_TM, 30)): int,
+            vol.Required(CONF_ESIOS_TOKEN, default=self.config_entry.data.get(CONF_ESIOS_TOKEN)): str,
+            vol.Required(CONF_FORECAST_API_KEY, default=self.config_entry.data.get(CONF_FORECAST_API_KEY)): str
         })
 
         return self.async_show_form(step_id="user", data_schema=data_schema, errors=errors)
+
 ```
 
 ### 4. **Archivo `__init__.py`**
 
-El archivo `__init__.py` es donde inicializas tu componente y preparas la máquina de estados, con los valores configurados (la IP del inversor y `Tm`).
+El archivo `__init__.py` que inicializa el componente y prepara la máquina de estados, con los valores configurados (la IP del inversor, `Tm`,...).
 
 ```python
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM
+from homeassistant.helpers.event import async_track_time_interval
 from .state_machine import CicloStateMachine, ejecutar_maquina_de_estados
-from .sensor import PVControllerStateSensor
+from .sensor import PVControllerStateSensor, PVPCCostSensor, SolarForecastSensor
+from .const import DOMAIN, CONF_INVERTER_IP, CONF_TM, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
+import datetime
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up PV Controller from a config entry."""
     inverter_ip = entry.data.get(CONF_INVERTER_IP)
     Tm = entry.data.get(CONF_TM)
+    esios_token = entry.data.get(CONF_ESIOS_TOKEN)
+    forecast_api_key = entry.data.get(CONF_FORECAST_API_KEY)
 
-    # Agregar el sensor de estado
-    hass.async_create_task(
-        hass.helpers.entity_component.async_add_entities([PVControllerStateSensor(hass)])
-    )
-    
     # Inicializar la máquina de estados con Tm
     ciclo = CicloStateMachine()
 
@@ -139,21 +167,40 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         """Función que ejecuta la máquina de estados periódicamente."""
         t = event_time.timestamp()
         t_last = hass.data[DOMAIN].get('t_last', 0)
-        sensors_ok = True  # Simulación de sensores
-        inverter_ok = True  # Simulación de inversor
-        calcs_ok = True     # Simulación de cálculos
 
-        ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok)
+        # Aquí obtenemos el estado de los sensores.
+        sensors_ok = (
+            hass.states.get("sensor.pvpc_sensor") is not None and
+            hass.states.get("sensor.pvpc_sensor").state == "ok" and
+            hass.states.get("sensor.solar_forecast_sensor") is not None and
+            hass.states.get("sensor.solar_forecast_sensor").state == "ok"
+        )
+
+        inverter_ok = hass.states.get("sensor.inverter_state").state == "ok"  # Simulación de estado
+        calcs_ok = hass.data[DOMAIN].get('calcs_ok', False)  # Usamos el valor almacenado en hass.data
+
+        # Ejecutar la máquina de estados con los valores obtenidos
+        ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok, hass)
 
         # Actualizar el tiempo de la última lectura
         hass.data[DOMAIN]['t_last'] = t
 
     # Guardar los datos de configuración en hass.data
     hass.data.setdefault(DOMAIN, {})
-    hass.data[DOMAIN]['t_last'] = 0  # Tiempo de la última lectura
+    hass.data[DOMAIN]['t_last'] = 0  # Inicializar el tiempo de la última lectura
 
-    # Configurar una tarea periódica en Home Assistant
-    hass.helpers.event.async_track_time_interval(ejecutar_ciclo, Tm)
+    # Configurar la tarea periódica (intervalo basado en el parámetro Tm)
+    interval = datetime.timedelta(seconds=Tm)
+    async_track_time_interval(hass, ejecutar_ciclo, interval)
+
+    # Añadir los sensores de PVPC y Forecast Solar
+    hass.async_create_task(
+        hass.helpers.entity_component.async_add_entities([
+            PVPCCostSensor(hass, esios_token),
+            SolarForecastSensor(hass, forecast_api_key),
+            PVControllerStateSensor(hass)
+        ])
+    )
 
     return True
 
@@ -165,11 +212,12 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 ### 5. **Archivo `sensor.py`**
 
-Si quieres definir algún sensor basado en el estado de la máquina, puedes hacerlo en el archivo `sensor.py`. Un ejemplo sencillo sería crear un sensor que reporte el estado actual de la máquina de estados.
+El archivo `sensor.py` define varios sensores que reportan el estado y obtienen valores de las API de ESIOS y Forecast.solar
 
 ```python
+import requests
 from homeassistant.helpers.entity import Entity
-from .const import DOMAIN
+from .const import DOMAIN, CONF_ESIOS_TOKEN, CONF_FORECAST_API_KEY
 
 class PVControllerStateSensor(Entity):
     """Representa el sensor de estado de la máquina de estados."""
@@ -207,6 +255,128 @@ class PVControllerStateSensor(Entity):
         # Llama a async_schedule_update_ha_state() para notificar los cambios
         self.async_schedule_update_ha_state()
 
+
+import requests
+from homeassistant.helpers.entity import Entity
+from .const import DOMAIN, CONF_ESIOS_TOKEN
+
+class PVPCCostSensor(Entity):
+    """Sensor para obtener el PVPC de la API de ESIOS."""
+
+    def __init__(self, hass, esios_token):
+        """Inicializa el sensor con el token de la API de ESIOS."""
+        self.hass = hass
+        self._state = None
+        self._read_values = None  # Aquí guardaremos los valores leídos
+        self._esios_token = esios_token
+        """
+        Para acceder al valor del estado del PVPC usar:
+        hass.states.get("sensor.pvpc_sensor").state
+
+        Para acceder a los valores leídos PVPC usar:
+        hass.states.get("sensor.pvpc_sensor").attributes["read_values"]
+        """
+
+    @property
+    def name(self):
+        return "pvpc_sensor"
+
+    @property
+    def state(self):
+        """Devuelve el estado actual del sensor (ok o error)."""
+        return self._state
+
+    @property
+    def read_values(self):
+        """Devuelve los valores leídos del PVPC."""
+        return self._read_values
+
+    async def async_update(self):
+        """Actualizar el estado y los valores consultando la API de ESIOS."""
+        headers = {
+            'Accept': 'application/json',
+            'Authorization': f'Token {self._esios_token}',
+        }
+
+        try:
+            response = requests.get("https://api.esios.ree.es/indicators/1001", headers=headers, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            # Procesamos los datos de las próximas 6 horas
+            self._read_values = data['included'][0]['attributes']['values'][:6]
+
+            # Si la lectura es exitosa, establecer el estado a "ok"
+            self._state = "ok"
+
+        except requests.RequestException as e:
+            # Si ocurre algún error, establecer el estado a "error"
+            self._state = "error"
+            self._read_values = None  # Reiniciar los valores en caso de error
+
+        # Notificar a Home Assistant que el estado del sensor ha cambiado
+        self.async_schedule_update_ha_state()
+        
+import requests
+from homeassistant.helpers.entity import Entity
+from .const import DOMAIN, CONF_FORECAST_API_KEY
+
+class SolarForecastSensor(Entity):
+    """Sensor para obtener el pronóstico solar de la API Forecast Solar."""
+
+    def __init__(self, hass, forecast_api_key):
+        """Inicializa el sensor con la API key de Forecast Solar."""
+        self.hass = hass
+        self._state = None
+        self._read_values = None  # Aquí guardaremos los valores leídos
+        self._forecast_api_key = forecast_api_key
+        """
+        Para acceder al valor del estado del pronóstico solar usar
+        hass.states.get("sensor.solar_forecast_sensor").state
+
+        Para acceder a los valores leídos pronóstico solar usar
+        hass.states.get("sensor.solar_forecast_sensor").attributes["read_values"].
+        """
+
+    @property
+    def name(self):
+        return "solar_forecast_sensor"
+
+    @property
+    def state(self):
+        """Devuelve el estado actual del sensor (ok o error)."""
+        return self._state
+
+    @property
+    def read_values(self):
+        """Devuelve los valores leídos del pronóstico solar."""
+        return self._read_values
+
+    async def async_update(self):
+        """Actualizar el estado y los valores consultando la API de Forecast Solar."""
+        try:
+            # Realizamos la solicitud a la API de Forecast Solar
+            response = requests.get(
+                f"https://api.forecast.solar/{self._forecast_api_key}/estimated_actual",
+                timeout=10
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            # Procesamos los datos obtenidos de las próximas 6 horas
+            self._read_values = data['result']['watts'][:6]
+
+            # Si la lectura es exitosa, establecer el estado a "ok"
+            self._state = "ok"
+
+        except requests.RequestException as e:
+            # Si ocurre algún error, establecer el estado a "error"
+            self._state = "error"
+            self._read_values = None  # Reiniciar los valores en caso de error
+
+        # Notificar a Home Assistant que el estado del sensor ha cambiado
+        self.async_schedule_update_ha_state()
+        
 ```
 
 ### 6. **Archivo `state_machine.py`**
@@ -261,6 +431,18 @@ class CicloStateMachine(StateMachine):
     def on_E4(self):
         _LOGGER.info("Calculando salidas...")
 
+        # Llamar a la función calcular y asignar el resultado a calcs_ok
+        calcs_ok = calcular(self.hass)
+
+        # Notificar a Home Assistant si el cálculo fue exitoso o fallido
+        if calcs_ok:
+            _LOGGER.info("Cálculos exitosos, procediendo a la actualización de salidas.")
+        else:
+            _LOGGER.error("Fallo en los cálculos.")
+
+        # Almacenar el valor de calcs_ok en hass.data para ser usado más adelante
+        self.hass.data[DOMAIN]['calcs_ok'] = calcs_ok
+        
     def on_E5(self):
         _LOGGER.info("Actualizando salidas...")
 
@@ -307,14 +489,35 @@ def ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok
         _LOGGER.info("Ciclo finalizado, listo para un nuevo ciclo.")
     else:
         _LOGGER.info("No es tiempo para un nuevo ciclo aún.")
+        
+
+def calcular(hass):
+    """Función de cálculo que lee los valores de los sensores y realiza el cálculo."""
+    # Obtener los valores de los sensores
+    solar_forecast_values = hass.states.get("sensor.solar_forecast_sensor").attributes.get("read_values", None)
+    pvpc_values = hass.states.get("sensor.pvpc_sensor").attributes.get("read_values", None)
+
+    if solar_forecast_values and pvpc_values:
+        _LOGGER.info(f"Valores de solar forecast: {solar_forecast_values}")
+        _LOGGER.info(f"Valores de PVPC: {pvpc_values}")
+
+        # Realizar el cálculo
+        try:
+            resultado = sum(solar_forecast_values) * sum(pvpc_values)
+            _LOGGER.info(f"Resultado del cálculo: {resultado}")
+            return True  # El cálculo fue exitoso
+        except Exception as e:
+            _LOGGER.error(f"Error durante el cálculo: {e}")
+            return False  # Ocurrió un error durante el cálculo
+    else:
+        _LOGGER.warning("No se pudieron obtener los valores de los sensores para el cálculo.")
+        return False  # No se pudieron obtener los datos necesarios   
 
 ```
 
 ### Resumen del flujo:
 
-1. El usuario configura el componente a través del UI de Home Assistant, indicando la **IP del inversor** y el valor de **Tm**.
-2. El componente inicializa la máquina de estados en base al valor de **Tm**.
+1. El usuario configura el componente a través del UI de Home Assistant
+2. El componente inicializa la máquina de estados
 3. Se configura una tarea periódica para ejecutar la máquina de estados en intervalos de tiempo definidos por **Tm**.
-4. Opcionalmente, puedes crear sensores que representen el estado actual de la máquina de estados.
-
-Este ejemplo es un punto de partida básico que puedes extender según las necesidades de tu proyecto en Home Assistant.
+4. Se crean sensores que representan el estado actual de la máquina de estados y las lecturas necesarias para los calculos
