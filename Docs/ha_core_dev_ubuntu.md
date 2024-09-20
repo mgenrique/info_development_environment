@@ -1,4 +1,6 @@
-Si estás desarrollando en **Ubuntu** en lugar de **Windows**, el proceso para instalar y configurar **Home Assistant Core** y desarrollar componentes personalizados en un entorno virtual aislado es más sencillo porque no necesitas WSL. Ubuntu te permite trabajar directamente en un entorno Linux.
+# Instalar Home Assistant Core en un PC con Ubuntu y Visual Studio Code en un entorno virtual aislado
+
+El proceso para instalar y configurar **Home Assistant Core** y desarrollar componentes personalizados en un entorno virtual aislado es más sencillo que en Windows porque no se necesita WSL. 
 
 A continuación te detallo los pasos específicos para **desarrollar Home Assistant Core en Ubuntu**:
 
