@@ -48,7 +48,7 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
 2. **Crear un entorno virtual**:
    - Dentro de este directorio, crea y activa un entorno virtual para aislar las dependencias:
      ```bash
-     python3.10 -m venv venv
+     python3.12 -m venv venv
      source venv/bin/activate
      ```
 
