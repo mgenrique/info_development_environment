@@ -27,10 +27,14 @@ El archivo `manifest.json` describe tu componente. Puedes configurarlo así:
 {
   "domain": "pv_controller",
   "name": "PV Controller",
-  "documentation": "https://github.com/usuario/pv_controller",
+  "documentation": "https://github.com/mgenrique/info_development_environment",
   "dependencies": [],
-  "codeowners": ["@tu_usuario_github"],
+  "codeowners": ["@mgenrique"],
   "version": "1.0.0",
+  "requirements": [
+    "python-statemachine==0.8.0",
+    "requests>=2.23.0"
+  ],  
   "config_flow": true
 }
 ```
