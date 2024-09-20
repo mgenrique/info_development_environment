@@ -68,4 +68,4 @@ E5 --> E3 : else
 Este diagrama de estados visualiza claramente el flujo de trabajo con todas las condiciones lógicas para cambiar entre los estados. Puedes copiar este código y probarlo en cualquier editor que soporte PlantUML para generar la imagen del diagrama de estado.
 
 El resultado de este código llevado al servidor de PlantUML es el siguiente:
-[diagrama](images/plantuml_sample01.jpg)
+![diagrama](images/plantuml_sample01.jpg)
