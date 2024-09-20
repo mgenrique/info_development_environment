@@ -70,4 +70,46 @@ Este diagrama de estados visualiza claramente el flujo de trabajo con todas las 
 https://plantuml.com/es/state-diagram
 
 El resultado de este código llevado al servidor de PlantUML es el siguiente:
-![diagrama](../images/plantuml_sample01.jpg)
+![diagrama1](../images/plantuml_sample01.jpg)
+
+
+## Variante 2
+```plantuml
+@startuml
+skinparam state {
+  BackgroundColor lightblue 
+  BorderColor Black
+  ArrowColor Black
+}
+
+[*] --> E1 : Inicialización
+
+state E1 : ESPERAR NUEVO CICLO
+state fork_state_1 <<fork>>
+state E2 : ESPERAR SENSORES
+state E3 : VERIFICAR INVERSOR
+state join_state_1 <<fork>>
+state E4 : CALCULAR SALIDAS
+state E5 : ACTUALIZAR SALIDAS
+E1 --> fork_state_1 : (t - t_last > Tm)
+fork_state_1 --> E2
+fork_state_1 --> E3
+state join_state_1 <<join>>
+E2 --> join_state_1 : sensors_ok
+E3 --> join_state_1 : inverter_ok
+join_state_1 --> E4
+E4 --> E5 : calcs_ok
+E5 --> [*]
+
+state E2 : PVPC proximas horas 
+state E2 : Forecast Solar 
+state E2 : Forecast Energia a consumir
+state E2 : SoC actual de la batería
+state E2 : Watios consumidos ahora
+state E3 : ¿Control externo habilitado?
+
+@enduml
+````
+
+El resultado de este código llevado al servidor de PlantUML es el siguiente:
+![diagrama2](../images/plantuml_sample02.png)
