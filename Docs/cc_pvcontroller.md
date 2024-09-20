@@ -184,7 +184,10 @@ class PVControllerStateSensor(Entity):
 
 ### 6. **Archivo `state_machine.py`**
 
-El siguiente código corresponde al contenido del fichero `state_machine.py`.
+El siguiente código corresponde al contenido del fichero `state_machine.py`. 
+Respecto al ejemplo de una máquina de estados generica en Python, al integrarlo en un Custom Component de Home Assistant se ha modificados para incluir `hass` como argumento de la función `ejecutar_maquina_de_estados`
+
+Esto es necesario para que la máquina de estados pueda intercambiar información con Home Assistant, como por ejemplo comunicar el valor de sensors_ok, inverter_ok o calcs_ok para que el sensor del CC actualice su estado
 
 ```python
 from statemachine import State, StateMachine
@@ -225,7 +228,11 @@ class CicloStateMachine(StateMachine):
 ciclo = CicloStateMachine()
 
 # Simulación de eventos
-def ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok):
+def ejecutar_maquina_de_estados(t, t_last, Tm, sensors_ok, inverter_ok, calcs_ok, hass):
+    # Código de la máquina de estados
+    hass.data[DOMAIN]['sensors_ok'] = sensors_ok
+    hass.data[DOMAIN]['inverter_ok'] = inverter_ok
+    hass.data[DOMAIN]['calcs_ok'] = calcs_ok
     if t - t_last > Tm:
         ciclo.fork_state_1()  # Transición del estado E1 al fork E2 y E3
 
