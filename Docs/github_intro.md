@@ -12,6 +12,8 @@ Seguir este manual [git_new_branch](./git_new_branch.md)
 Seguir este manual [git_commit_changes](./git_commit_changes.md)
 
 
+
+# Dar permisos
 Para verificar si tu clave SSH está correctamente registrada y vinculada en GitHub y Ubuntu, puedes seguir estos pasos:
 
 ### 1. **Verifica si tienes una clave SSH generada en tu sistema**
