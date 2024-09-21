@@ -1,5 +1,3 @@
-# Se recomienda instalar con Python 3.12 pero da problemas con la linreria PyTurboJPEG ¿que hacer?
-
 # Instalar Home Assistant Core en un PC con Ubuntu y Visual Studio Code en un entorno virtual aislado
 
 El proceso para instalar y configurar **Home Assistant Core** y desarrollar componentes personalizados en un entorno virtual aislado es más sencillo que en Windows porque no se necesita WSL. 
@@ -16,11 +14,9 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
      sudo apt update && sudo apt upgrade -y
      ```
 
-2. **Instalar Python 3.10 o superior**:
-   - Home Assistant Core requiere **Python 3.10** o superior. Puedes instalar Python 3.10 con los siguientes comandos:
-     ```bash
-     sudo apt install python3.10 python3.10-venv python3.10-dev -y
-     ```
+2. **Instalar Python 3.12**:
+   - Home Assistant Core requiere **Python 3.10** o superior. Puedes instalar Python 3.12 con los siguientes comandos:
+
      Si tienes ya otro Python instalado lo puedes comprobar con
      ````bash
      python3 --version
@@ -28,11 +24,16 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
      ````
      Si te arroja por ejemplo `Python 3.12.3` instalado en `/usr/bin/python3` puedes simplemente hacer
      ````bash
-     sudo apt install python3.12-venv python3.12-dev -y
+     sudo apt install python3-dev python3-pip python3-venv python3-sqlalchemy libffi-dev build-essential cargo     
      ````
      
 
-4. **Instalar otras dependencias**:
+4. Instalar otras dependencias **NO NECESARIO**:
+   En la busquedade una solución al Error de TurboJPEG, intente poner mas paquetes que no resolvieron el fallo.
+   Se gun se indica en https://github.com/home-assistant/core/issues/114997
+   No tiene solución por el momento. Este fallo desaparece en las instlaciones con contenedores.
+   No parece importante ya que Home Assistant arranca igual a pesar del error.
+   **NO NECESARIO**
    - También necesitarás algunos paquetes adicionales como `gcc` para compilar algunas dependencias de Home Assistant:
      ```bash
      sudo apt install build-essential libffi-dev libssl-dev python3-pip -y
@@ -40,52 +41,36 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
      sudo apt install libjpeg-turbo8-dev libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev
      ```
 
-     Me ha fallado lo anterior y he hecho
-     ````bash
-     mkdir PyTurboJPEG
-     cd PyTurboJPEG
-     git clone https://github.com/lilohuang/PyTurboJPEG.git
-     python setup.py install
-     ````
-
 ### 2. Crear un entorno virtual para Home Assistant
 
-1. **Crea un directorio de trabajo**:
-   - Crea un directorio donde vas a instalar Home Assistant Core. Por ejemplo:
-     ```bash
-     mkdir homeassistant
-     cd homeassistant
-     ```
+Por ejemplo si quieres que el entorno virtual se instale en la carpeta `ha01` de la carpeta raiz del usuario `~`:
+```bash
+cd ~
+python3 -m venv ha01
+cd ha01
+```
+Para activar el entrono virtual
+```bash
+cd ~/ha01
+source bin/activate
+```
+O en un solo paso
+```bash
+source ~/ha0/bin/activate
+```
 
-2. **Crear un entorno virtual**:
-   - Dentro de este directorio, crea y activa un entorno virtual para aislar las dependencias:
-     ```bash
-     python3.10 -m venv ha_python_3.1
-     source ha_python_3.1/bin/activate
-     ```
+Asegúrate de tener la última versión de `pip`, `setuptools` y `wheel`:
+```bash
+pip install --upgrade pip setuptools wheel
+```
 
-     Cada bez que quieras volver a ejecutar hass debes entrar primero al entorno virtual
-     ```bash
-     cd /home/enrique/local_ha/homeassistant
-     source venv/bin/activate
-     ```     
-
-3. **Actualizar `pip`**:
-   - Asegúrate de tener la última versión de `pip`, `setuptools` y `wheel`:
-     ```bash
-     pip install --upgrade pip setuptools wheel
-     ```
-     E instala tambien las liberias para turbojpeg
-     ````bash
-     pip install --upgrade --force-reinstall turbojpeg
-     ```
 
 ### 3. Instalar Home Assistant Core
 
 1. **Instalar Home Assistant Core**:
    - Una vez activado el entorno virtual, instala Home Assistant Core:
      ```bash
-     pip install homeassistant
+     pip3 install homeassistant
      ```
 
 2. **Iniciar Home Assistant Core**:
@@ -113,9 +98,9 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
        ```
 
 2. **Abrir el proyecto en Visual Studio Code**:
-   - Abre el directorio `homeassistant` en Visual Studio Code:
+   - Abre el directorio `ha01` en Visual Studio Code:
      ```bash
-     code homeassistant
+     code ha01
      ```
 
 3. **Instalar extensiones útiles**:
@@ -198,3 +183,27 @@ Primero, necesitas instalar algunas herramientas básicas para configurar el ent
 4. Prueba y depura el componente en Home Assistant, revisando los logs y recargando el componente según sea necesario.
 
 Con este flujo de trabajo, podrás desarrollar y probar eficientemente tu componente en **Ubuntu**. ¡Si tienes alguna duda o necesitas más detalles, no dudes en preguntarme!
+
+````bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3-dev python3-pip python3-venv python3-sqlalchemy libffi-dev build-essential cargo
+cd ~
+python3 -m venv ha01
+cd ha01
+source bin/activate
+python3 -m pip install wheel
+pip3 install homeassistant
+
+
+
+mkdir -p ~/ha01
+cd ~/ha01
+python3 -m venv homeassistant
+cd homeassistant
+source bin/activate
+python3 -m pip install wheel
+pip3 install homeassistant
+
+
+python3 -m pip install wheel
+````
