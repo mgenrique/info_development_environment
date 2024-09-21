@@ -11,6 +11,9 @@ Seguir este manual [git_new_branch](./git_new_branch.md)
 ## Reflejar Cambios Locales en un Fork
 Seguir este manual [git_commit_changes](./git_commit_changes.md)
 
+## Iniciar un repositorio o completarlo desde archivos locales
+Seguir este manual [git_upload_local](./git_upload_local.md)
+
 
 
 # Dar permisos
